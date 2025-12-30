@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecnologia dei Materiali - Accademia Albertina</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            color: #fff;
+        }
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #60a5fa;
+        }
+        .subtitle {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 25px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .menu a:hover {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: #60a5fa;
+            transform: translateX(5px);
+        }
+        .icon {
+            font-size: 1.5rem;
+        }
+        .description {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+        .link-text { flex: 1; }
+        footer {
+            margin-top: 50px;
+            color: #64748b;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <img src="LogoAlbertinaVettoriale_solo_logo.png" alt="Accademia Albertina" class="logo">
+    <h1>Tecnologia dei Materiali</h1>
+    <p class="subtitle">Prof. Paolo Maccarrone — Accademia Albertina di Torino</p>
+    
+    <nav class="menu">
+        <a href="db_tecnologie/TdM_DB_tecnologie.html">
+            <span class="icon">📊</span>
+            <div class="link-text">
+                Database Tecnologie
+                <div class="description">Ricerca e filtra 183 tecnologie manifatturiere</div>
+            </div>
+        </a>
+        <a href="db_tecnologie/TdM_Mappa_tecnologie.html">
+            <span class="icon">🗺️</span>
+            <div class="link-text">
+                Mappa Tecnologie
+                <div class="description">Navigazione visuale ad albero</div>
+            </div>
+        </a>
+        <a href="db_tecnologie/tutorial_tecnologie.html">
+            <span class="icon">📖</span>
+            <div class="link-text">
+                Tutorial
+                <div class="description">Guida all'uso degli strumenti</div>
+            </div>
+        </a>
+    </nav>
+    
+    <footer>
+        Scuola di Progettazione Artistica per l'Impresa
+    </footer>
+</body>
+</html>
