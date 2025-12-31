@@ -19,56 +19,43 @@ header{text-align:center;padding:2rem 0 3rem;border-bottom:1px solid var(--borde
 .credits .prof{font-style:italic;margin-top:0.1rem}
 header h1{font-size:2rem;background:linear-gradient(135deg,#fff,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem}
 header .subtitle{color:var(--accent);font-size:1rem;font-weight:500}
-
 .intro{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:2rem;border-left:4px solid var(--accent)}
 .intro p{color:#ccc}
-
 h2{color:var(--accent);font-size:1.4rem;margin:2rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
 h3{color:#fff;font-size:1.1rem;margin:1.5rem 0 0.8rem}
-
 .tool-section{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
 .tool-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
 .tool-icon{font-size:2rem}
 .tool-title{font-size:1.3rem;color:#fff}
 .tool-desc{color:var(--muted);font-size:0.9rem}
-
 .feature-list{list-style:none;margin:1rem 0}
 .feature-list li{padding:0.6rem 0;padding-left:1.8rem;position:relative;border-bottom:1px solid var(--border)}
 .feature-list li:last-child{border-bottom:none}
-.feature-list li::before{content:'âœ“';position:absolute;left:0;color:#4CAF50;font-weight:bold}
-
+.feature-list li::before{content:'✓';position:absolute;left:0;color:#4CAF50;font-weight:bold}
 .tip-box{background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(0,212,255,0.05));border:1px solid rgba(0,212,255,0.3);border-radius:8px;padding:1rem;margin:1rem 0}
 .tip-box .tip-title{color:var(--accent);font-weight:600;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem}
 .tip-box p{color:#ccc;font-size:0.9rem}
-
 .warning-box{background:linear-gradient(135deg,rgba(255,152,0,0.1),rgba(255,152,0,0.05));border:1px solid rgba(255,152,0,0.3);border-radius:8px;padding:1rem;margin:1rem 0}
 .warning-box .warning-title{color:#ffb74d;font-weight:600;margin-bottom:0.5rem}
 .warning-box p{color:#ccc;font-size:0.9rem}
-
 .steps{counter-reset:step}
 .step{background:var(--card2);border-radius:8px;padding:1rem 1rem 1rem 3.5rem;margin:0.8rem 0;position:relative}
 .step::before{counter-increment:step;content:counter(step);position:absolute;left:1rem;top:1rem;background:var(--accent);color:#000;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:0.9rem}
 .step-title{font-weight:600;color:#fff;margin-bottom:0.3rem}
 .step p{color:#aaa;font-size:0.9rem}
-
-.keyboard{display:inline-block;background:#333;border:1px solid #555;border-radius:4px;padding:0.15rem 0.5rem;font-family:monospace;font-size:0.85rem;color:#fff}
-
 .link-buttons{display:flex;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
 .link-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.8rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.2s}
 .link-btn.database{background:linear-gradient(135deg,#00695C,#00897B);color:#fff}
 .link-btn.mappa{background:linear-gradient(135deg,#1565c0,#1976d2);color:#fff}
 .link-btn:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,0.3)}
-
 .shortcut-table{width:100%;border-collapse:collapse;margin:1rem 0}
 .shortcut-table th,.shortcut-table td{padding:0.7rem;text-align:left;border-bottom:1px solid var(--border)}
 .shortcut-table th{color:var(--accent);font-weight:600}
 .shortcut-table td:first-child{color:#fff;font-weight:500}
 .shortcut-table td:last-child{color:#aaa}
-
 .workflow{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin:1rem 0;padding:1rem;background:var(--card2);border-radius:8px}
 .workflow-item{background:var(--card);padding:0.5rem 1rem;border-radius:6px;font-size:0.9rem}
 .workflow-arrow{color:var(--accent);font-size:1.2rem}
-
 footer{text-align:center;padding:2rem 0;margin-top:2rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.8rem}
 </style>
 </head>
@@ -81,7 +68,7 @@ footer{text-align:center;padding:2rem 0;margin-top:2rem;border-top:1px solid var
     </div>
     <div class="credits">
       <div class="accademia">Accademia Albertina di Belle Arti di Torino</div>
-      <div class="scuola">Scuola PAI â€“ Progettazione Artistica per l'Impresa</div>
+      <div class="scuola">Scuola PAI – Progettazione Artistica per l'Impresa</div>
       <div class="corso">Tecnologia dei Materiali</div>
       <div class="prof">Prof. Paolo Maccarrone</div>
     </div>
@@ -98,7 +85,6 @@ footer{text-align:center;padding:2rem 0;margin-top:2rem;border-top:1px solid var
     <a href="TdM_Mappa_tecnologie.html" class="link-btn mappa">🗺️ Apri Mappa Tecnologica</a>
   </div>
 
-  <!-- DATABASE SECTION -->
   <h2>📋 Database Tecnologie</h2>
   
   <div class="tool-section">
@@ -119,8 +105,9 @@ footer{text-align:center;padding:2rem 0;margin-top:2rem;border-top:1px solid var
       <li><strong>Filtri per classe</strong> - Sottrazione, Conservazione, Incremento</li>
       <li><strong>Filtri per materiale</strong> - Metalli, Polimeri, Legno, Ceramica, ecc.</li>
       <li><strong>Ordinamento colonne</strong> - Click sull'intestazione per ordinare</li>
-      <li><strong>Selezione multipla</strong> - Seleziona tecnologie e esporta in CSV</li>
+      <li><strong>Selezione multipla</strong> - Seleziona tecnologie per esportare o visualizzare</li>
       <li><strong>Schede dettagliate</strong> - Click su una riga per vedere tutti i dettagli</li>
+      <li><strong>Vedi in Mappa</strong> - Visualizza una o più tecnologie selezionate nella Mappa</li>
     </ul>
   </div>
 
@@ -147,10 +134,9 @@ footer{text-align:center;padding:2rem 0;margin-top:2rem;border-top:1px solid var
 
   <div class="tip-box">
     <div class="tip-title">💡 Suggerimento</div>
-    <p>Usa il bottone <strong>"â˜‘ Sel"</strong> per selezionare più tecnologie, poi <strong>"â¬‡ CSV"</strong> per esportarle in un foglio di calcolo - utile per confronti!</p>
+    <p>Usa il bottone <strong>"☑ Sel"</strong> per selezionare più tecnologie, poi <strong>"⬇ CSV"</strong> per esportarle in un foglio di calcolo, oppure <strong>"🗺️ Vedi in Mappa"</strong> per visualizzarle tutte insieme nell'albero decisionale!</p>
   </div>
 
-  <!-- MAPPA SECTION -->
   <h2>🗺️ Mappa Tecnologica</h2>
   
   <div class="tool-section">
@@ -162,7 +148,7 @@ footer{text-align:center;padding:2rem 0;margin-top:2rem;border-top:1px solid var
       </div>
     </div>
     
-    <p>La Mappa ti guida nella scelta della tecnologia seguendo il percorso: <strong>FORMA â†’ Tipologia â†’ Materiale â†’ Tecnologia</strong>. È pensata per rispondere alla domanda: "Devo realizzare un oggetto con questa forma, quale tecnologia uso?"</p>
+    <p>La Mappa ti guida nella scelta della tecnologia seguendo il percorso: <strong>FORMA → Tipologia → Materiale → Tecnologia</strong>. È pensata per rispondere alla domanda: "Devo realizzare un oggetto con questa forma, quale tecnologia uso?"</p>
     
     <h3>Struttura dell'albero</h3>
     <ul class="feature-list">
@@ -218,34 +204,34 @@ footer{text-align:center;padding:2rem 0;margin-top:2rem;border-top:1px solid var
   
   <table class="shortcut-table">
     <tr>
-      <td>âŠ¡ Fit Tutto</td>
+      <td>⊡ Fit Tutto</td>
       <td>Adatta la vista per mostrare l'intero albero</td>
     </tr>
     <tr>
-      <td>â—Ž Fit Selezione</td>
+      <td>◎ Fit Selezione</td>
       <td>Zoom sul percorso selezionato</td>
     </tr>
     <tr>
-      <td>âœ• Deseleziona</td>
+      <td>✕ Deseleziona</td>
       <td>Rimuove la selezione corrente</td>
     </tr>
     <tr>
-      <td>âŠ™ Libera</td>
+      <td>⊙ Libera</td>
       <td>Sblocca tutti i nodi fissati</td>
     </tr>
     <tr>
-      <td>â†º Reset Layout</td>
+      <td>↺ Reset Layout</td>
       <td>Ripristina il layout originale (cancella posizioni salvate)</td>
     </tr>
     <tr>
-      <td>âŸ³ Riordina</td>
+      <td>⟳ Riordina</td>
       <td>Riattiva la simulazione fisica per riorganizzare i nodi</td>
     </tr>
   </table>
 
   <h3>Filtri per Requisiti</h3>
   
-  <p>Clicca su <strong>"â˜° FILTRI"</strong> (tab a destra) per aprire il pannello dei requisiti. Puoi filtrare le tecnologie per:</p>
+  <p>Clicca su <strong>"☰ FILTRI"</strong> (tab a destra) per aprire il pannello dei requisiti. Puoi filtrare le tecnologie per:</p>
   
   <ul class="feature-list">
     <li><strong>Proprietà ottiche</strong> - Trasparente, Traslucido, Opaco</li>
@@ -260,61 +246,77 @@ footer{text-align:center;padding:2rem 0;margin-top:2rem;border-top:1px solid var
   </div>
 
   <div class="warning-box">
-    <div class="warning-title">âšàï¸ Posizioni salvate</div>
-    <p>Quando trascini i nodi, le posizioni vengono salvate automaticamente nel browser (localStorage). Se vuoi ricominciare da zero, usa <strong>"â†º Reset Layout"</strong>.</p>
+    <div class="warning-title">⚠️ Posizioni salvate</div>
+    <p>Quando trascini i nodi, le posizioni vengono salvate automaticamente nel browser (localStorage). Se vuoi ricominciare da zero, usa <strong>"↺ Reset Layout"</strong>.</p>
   </div>
 
-  <!-- WORKFLOW -->
   <h2>🔄 Flusso di lavoro consigliato</h2>
   
   <h3>Scenario 1: "So cosa voglio fare, quale tecnologia uso?"</h3>
   <div class="workflow">
     <span class="workflow-item">🗺️ Apri Mappa</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">Parti da FORMA</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">Segui il percorso</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">Click su tecnologia</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">📋 Scheda completa</span>
   </div>
 
   <h3>Scenario 2: "Voglio sapere tutto su una tecnologia"</h3>
   <div class="workflow">
     <span class="workflow-item">📋 Apri Database</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">Cerca / Filtra</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">Click sulla riga</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">Leggi scheda</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">🗺️ Vedi nella Mappa</span>
   </div>
 
   <h3>Scenario 3: "Confronto tra tecnologie"</h3>
   <div class="workflow">
     <span class="workflow-item">📋 Apri Database</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">Filtra categoria</span>
-    <span class="workflow-arrow">â†’</span>
-    <span class="workflow-item">â˜‘ Seleziona righe</span>
-    <span class="workflow-arrow">â†’</span>
-    <span class="workflow-item">â¬‡ Esporta CSV</span>
-    <span class="workflow-arrow">â†’</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">☑ Seleziona righe</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">⬇ Esporta CSV</span>
+    <span class="workflow-arrow">→</span>
     <span class="workflow-item">Confronta in Excel</span>
   </div>
 
-  <!-- FAQ -->
-  <h2>â“ Domande frequenti</h2>
+  <h3>Scenario 4: "Confronto visuale su Mappa"</h3>
+  <div class="workflow">
+    <span class="workflow-item">📋 Apri Database</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Cerca/Filtra</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">☑ Seleziona più righe</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">🗺️ Vedi in Mappa</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Confronta posizioni</span>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Vedi in Mappa</div>
+    <p>Quando selezioni una o più tecnologie nel Database, appare il bottone <strong>"🗺️ Vedi in Mappa"</strong>. Cliccandolo, la Mappa si apre evidenziando tutte le tecnologie selezionate e i loro percorsi nell'albero decisionale. Utile per capire le relazioni tra tecnologie simili!</p>
+  </div>
+
+  <h2>❓ Domande frequenti</h2>
   
   <div class="tool-section">
     <h3>Posso usare questi strumenti offline?</h3>
     <p>Sì! Scarica i due file HTML e aprili nel browser. L'unica cosa che richiede connessione è la libreria D3.js per la Mappa (viene caricata da CDN al primo avvio).</p>
     
     <h3>Come mai alcuni nodi sono "fissati"?</h3>
-    <p>Quando trascini un nodo nella Mappa, questo viene fissato in quella posizione e salvato. Doppio click per sbloccarlo, oppure "âŠ™ Libera" per sbloccarli tutti.</p>
+    <p>Quando trascini un nodo nella Mappa, questo viene fissato in quella posizione e salvato. Doppio click per sbloccarlo, oppure "⊙ Libera" per sbloccarli tutti.</p>
     
     <h3>Cosa significa il numero nella colonna "Sost."?</h3>
     <p>È un indice di sostenibilità da 1 a 5 (5 = più sostenibile). Considera consumo energetico, scarti, emissioni e possibilità di riciclo.</p>

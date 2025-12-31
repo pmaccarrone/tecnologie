@@ -127,6 +127,7 @@ tr.selected{background:rgba(255,213,79,0.12)}
 <div class="header-btns">
 <a class="btn btn-map" href="TdM_Mappa_tecnologie.html" title="Apri Mappa Tecnologica">&#128506; Mappa</a>
 <button class="btn btn-sel" id="btnSel" onclick="toggleSelezionati()">&#9745; Selezionati <span class="badge" id="selCount">0</span></button>
+<button class="btn btn-map" id="btnMapSel" onclick="openSelectedInMap()" style="display:none" title="Vedi selezionati in Mappa">&#128506; Vedi in Mappa</button>
 <button class="btn btn-reset" onclick="resetAll()" title="Reset filtri">&#8635; Reset</button>
 <button class="btn btn-export" onclick="exportCSV()">&#8595; CSV</button>
 </div>
@@ -374,6 +375,7 @@ function toggleAll(checked){
 function updateSelUI(){
   document.getElementById('selCount').textContent=selected.size;
   document.getElementById('btnSel').classList.toggle('active',selected.size>0 || showOnlySelected);
+  document.getElementById('btnMapSel').style.display=selected.size>0?'inline-block':'none';
 }
 function resetAll(){
   search="";
@@ -386,6 +388,7 @@ function resetAll(){
   document.getElementById("search").value="";
   document.getElementById("btnSel").classList.remove("active");
   document.getElementById("selCount").textContent="0";
+  document.getElementById("btnMapSel").style.display="none";
   document.querySelectorAll(".fbtn").forEach(function(b){b.classList.remove("active");});
   document.querySelectorAll(".fbtn.all-btn").forEach(function(b){b.classList.add("active");});
   render();
@@ -449,7 +452,14 @@ function openModal(id){
 }
 function openInMap(){
   if(currentTechId){
-    window.open('TdM_Mappa_tecnologie.html?tech='+currentTechId,'_blank');
+    window.open('TdM_Mappa_tecnologie.html?tech='+currentTechId,'tdm_mappa');
+  }
+}
+function openSelectedInMap(){
+  if(selected.size>0){
+    if(selected.size>10 && !confirm('Hai selezionato '+selected.size+' tecnologie. La visualizzazione potrebbe essere confusa. Continuare?'))return;
+    var ids=Array.from(selected).join(',');
+    window.open('TdM_Mappa_tecnologie.html?tech='+ids,'tdm_mappa');
   }
 }
 function closeModal(){document.getElementById('modal').classList.remove('open');}

@@ -375,6 +375,7 @@ node.each(function(d) {
 });
 
 var selectedNode = null;
+var selectedNodes = [];
 var activeFilters = [];
 var currentSearchQuery = '';
 var currentTechId = null;
@@ -414,6 +415,8 @@ function showPopup(event, d) {
 }
 
 function closePopup() {
+  // Non chiudere se c'è selezione multipla attiva
+  if (selectedNodes.length > 0) return;
   document.getElementById('techPopup').classList.remove('visible');
   currentTechId = null;
 }
@@ -482,7 +485,7 @@ function moveTooltip(event) {
 function openFullCard() {
   if (currentTechId) {
     // Apre il database con parametro tech
-    window.open('TdM_DB_tecnologie.html?tech=' + currentTechId, '_blank');
+    window.open('TdM_DB_tecnologie.html?tech=' + currentTechId, 'tdm_db');
   }
 }
 
@@ -505,9 +508,11 @@ function selectNodeById(nodeId) {
 
 function clearSelection() {
   selectedNode = null;
+  selectedNodes = [];
   currentSearchQuery = '';
   document.getElementById('searchTech').value = '';
   document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('techPopup').classList.remove('visible');
   updateVisuals();
   document.getElementById('breadcrumb').classList.remove('visible');
 }
@@ -828,14 +833,30 @@ function fitView() {
 }
 
 function fitSelection() {
-  if (!selectedNode) { fitView(); return; }
-  var allPathIds = selectedNode.ancestors.concat(selectedNode.descendantIds);
-  var selectedNodes = nodes.filter(function(n) { return allPathIds.includes(n.id) && !n.filteredOut; });
-  if (selectedNodes.length === 0) { fitView(); return; }
-  var minX = d3.min(selectedNodes, function(n) { return n.x - SIZES[n.level].w/2; });
-  var maxX = d3.max(selectedNodes, function(n) { return n.x + SIZES[n.level].w/2; });
-  var minY = d3.min(selectedNodes, function(n) { return n.y - SIZES[n.level].h/2; });
-  var maxY = d3.max(selectedNodes, function(n) { return n.y + SIZES[n.level].h/2; });
+  var pathNodes = [];
+  
+  // Selezione multipla
+  if (selectedNodes.length > 0) {
+    selectedNodes.forEach(function(sn) {
+      sn.ancestors.forEach(function(aid) {
+        var n = nodes.find(function(x) { return x.id === aid; });
+        if (n && !n.filteredOut && pathNodes.indexOf(n) === -1) pathNodes.push(n);
+      });
+      if (!sn.filteredOut && pathNodes.indexOf(sn) === -1) pathNodes.push(sn);
+    });
+  }
+  // Selezione singola
+  else if (selectedNode) {
+    var allPathIds = selectedNode.ancestors.concat(selectedNode.descendantIds);
+    pathNodes = nodes.filter(function(n) { return allPathIds.includes(n.id) && !n.filteredOut; });
+  }
+  
+  if (pathNodes.length === 0) { fitView(); return; }
+  
+  var minX = d3.min(pathNodes, function(n) { return n.x - SIZES[n.level].w/2; });
+  var maxX = d3.max(pathNodes, function(n) { return n.x + SIZES[n.level].w/2; });
+  var minY = d3.min(pathNodes, function(n) { return n.y - SIZES[n.level].h/2; });
+  var maxY = d3.max(pathNodes, function(n) { return n.y + SIZES[n.level].h/2; });
   var bw = maxX - minX, bh = maxY - minY, pad = 80;
   var scale = Math.min((width - pad*2) / bw, (height - pad*2) / bh, 1.3);
   var tx = (width - bw * scale) / 2 - minX * scale;
@@ -855,93 +876,173 @@ if (hadSavedPositions) {
   setTimeout(fitView, 2500);
 }
 
-// Supporto URL parameter ?tech=ID per evidenziare tecnologia
+// Supporto URL parameter ?tech=ID o ?tech=ID1,ID2,ID3 per evidenziare tecnologie
 function checkUrlParam() {
   var params = new URLSearchParams(window.location.search);
-  var techId = params.get('tech');
-  if (techId) {
-    var id = parseInt(techId);
-    if (!isNaN(id)) {
-      // Trova il nodo con questo techId
-      var targetNode = nodes.find(function(n) { return n.techId === id; });
-      if (targetNode) {
-        // Prima assicurati che il layout salvato sia applicato
-        var saved = localStorage.getItem('albero_positions_v1');
-        if (saved) {
-          try {
-            var positions = JSON.parse(saved);
-            positions.forEach(function(p) {
-              var n = nodes.find(function(x) { return x.id === p.id; });
-              if (n) { 
-                n.x = p.x; 
-                n.y = p.y; 
-                if (p.fx !== null) {
-                  n.fx = p.fx; 
-                  n.fy = p.fy;
-                }
-              }
-            });
-            node.classed('fixed', function(d) { return d.fx !== null; });
-            simulation.alpha(0.05).restart(); // Leggera stabilizzazione
-          } catch(e) {}
+  var techParam = params.get('tech');
+  if (!techParam) return;
+  
+  // Splitta su virgola per supportare multipli
+  var techIds = techParam.split(',').map(function(s) { return parseInt(s.trim()); }).filter(function(id) { return !isNaN(id); });
+  if (techIds.length === 0) return;
+  
+  // Trova i nodi target
+  var targetNodes = [];
+  techIds.forEach(function(id) {
+    var n = nodes.find(function(x) { return x.techId === id; });
+    if (n) targetNodes.push(n);
+  });
+  if (targetNodes.length === 0) return;
+  
+  // Carica posizioni salvate
+  var saved = localStorage.getItem('albero_positions_v1');
+  if (saved) {
+    try {
+      var positions = JSON.parse(saved);
+      positions.forEach(function(p) {
+        var n = nodes.find(function(x) { return x.id === p.id; });
+        if (n) { 
+          n.x = p.x; 
+          n.y = p.y; 
+          if (p.fx !== null) { n.fx = p.fx; n.fy = p.fy; }
         }
-        
-        // Aspetta stabilizzazione poi zooma sul percorso
-        setTimeout(function() {
-          // Seleziona e evidenzia il percorso
-          selectNode(targetNode);
-          
-          // Calcola bounding box del percorso completo (ancestors + nodo)
-          var pathNodes = targetNode.ancestors.map(function(aid) {
-            return nodes.find(function(n) { return n.id === aid; });
-          }).filter(function(n) { return n && typeof n.x === 'number' && !isNaN(n.x); });
-          if (typeof targetNode.x === 'number' && !isNaN(targetNode.x)) {
-            pathNodes.push(targetNode);
-          }
-          
-          // Se non abbiamo abbastanza nodi con posizioni valide, aspetta ancora
-          if (pathNodes.length < 2) {
-            console.log('Posizioni non pronte, riprovo...');
-            setTimeout(arguments.callee, 500);
-            return;
-          }
-          
-          var minX = d3.min(pathNodes, function(n) { return n.x; });
-          var maxX = d3.max(pathNodes, function(n) { return n.x; });
-          var minY = d3.min(pathNodes, function(n) { return n.y; });
-          var maxY = d3.max(pathNodes, function(n) { return n.y; });
-          
-          // Calcola scala per vedere tutto il percorso con padding
-          var padding = 200;
-          var pathWidth = maxX - minX + padding * 2;
-          var pathHeight = maxY - minY + padding * 2;
-          var scaleX = width / pathWidth;
-          var scaleY = height / pathHeight;
-          var scale = Math.min(scaleX, scaleY, 1.5); // max 1.5x
-          scale = Math.max(scale, 0.4); // min 0.4x per vedere percorsi lunghi
-          
-          // Centra sul percorso
-          var centerX = (minX + maxX) / 2;
-          var centerY = (minY + maxY) / 2;
-          var tx = width/2 - centerX * scale;
-          var ty = height/2 - centerY * scale;
-          
-          svg.transition().duration(1000).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
-          
-          // Dopo lo zoom, mostra popup e aggiungi effetto pulse
-          setTimeout(function() {
-            showPopupForNode(targetNode);
-            // Pulse effect sul nodo target
-            var targetCircle = node.filter(function(d) { return d.id === targetNode.id; }).select('circle');
-            targetCircle
-              .transition().duration(300).attr('r', targetNode.radius * 1.6)
-              .transition().duration(300).attr('r', targetNode.radius * 1.2)
-              .transition().duration(200).attr('r', targetNode.radius);
-          }, 1100);
-          
-        }, 800); // Aspetta che il layout si stabilizzi
-      }
+      });
+      node.classed('fixed', function(d) { return d.fx !== null; });
+      simulation.alpha(0.05).restart();
+    } catch(e) {}
+  }
+  
+  // Aspetta stabilizzazione poi processa
+  setTimeout(function() {
+    if (targetNodes.length === 1) {
+      // Singola selezione - comportamento originale
+      selectNode(targetNodes[0]);
+      zoomToNodes(targetNodes);
+      setTimeout(function() { showPopupForNode(targetNodes[0]); pulseNode(targetNodes[0]); }, 1100);
+    } else {
+      // Selezione multipla
+      selectMultipleNodes(targetNodes);
+      zoomToNodes(targetNodes);
+      setTimeout(function() { showMultiPopup(targetNodes); }, 1100);
     }
+  }, 800);
+}
+
+function zoomToNodes(targetNodes) {
+  // Calcola bounding box di tutti i percorsi
+  var allPathNodes = [];
+  targetNodes.forEach(function(tn) {
+    tn.ancestors.forEach(function(aid) {
+      var n = nodes.find(function(x) { return x.id === aid; });
+      if (n && typeof n.x === 'number' && !isNaN(n.x)) allPathNodes.push(n);
+    });
+    if (typeof tn.x === 'number' && !isNaN(tn.x)) allPathNodes.push(tn);
+  });
+  
+  if (allPathNodes.length < 2) {
+    setTimeout(function() { zoomToNodes(targetNodes); }, 500);
+    return;
+  }
+  
+  var minX = d3.min(allPathNodes, function(n) { return n.x; });
+  var maxX = d3.max(allPathNodes, function(n) { return n.x; });
+  var minY = d3.min(allPathNodes, function(n) { return n.y; });
+  var maxY = d3.max(allPathNodes, function(n) { return n.y; });
+  
+  var padding = 200;
+  var pathWidth = maxX - minX + padding * 2;
+  var pathHeight = maxY - minY + padding * 2;
+  var scaleX = width / pathWidth;
+  var scaleY = height / pathHeight;
+  var scale = Math.min(scaleX, scaleY, 1.5);
+  scale = Math.max(scale, 0.3);
+  
+  var centerX = (minX + maxX) / 2;
+  var centerY = (minY + maxY) / 2;
+  var tx = width/2 - centerX * scale;
+  var ty = height/2 - centerY * scale;
+  
+  svg.transition().duration(1000).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+}
+
+function pulseNode(targetNode) {
+  var targetCircle = node.filter(function(d) { return d.id === targetNode.id; }).select('circle');
+  targetCircle
+    .transition().duration(300).attr('r', targetNode.radius * 1.6)
+    .transition().duration(300).attr('r', targetNode.radius * 1.2)
+    .transition().duration(200).attr('r', targetNode.radius);
+}
+
+function selectMultipleNodes(targetNodes) {
+  selectedNodes = targetNodes;
+  selectedNode = null;
+  updateVisualsMulti();
+}
+
+function updateVisualsMulti() {
+  // Calcola tutti i pathIds per tutti i nodi selezionati
+  var allPathIds = [];
+  selectedNodes.forEach(function(sn) {
+    sn.ancestors.forEach(function(id) { if (allPathIds.indexOf(id) === -1) allPathIds.push(id); });
+    sn.descendantIds.forEach(function(id) { if (allPathIds.indexOf(id) === -1) allPathIds.push(id); });
+  });
+  
+  node.each(function(d) {
+    var el = d3.select(this);
+    var isFiltered = d.filteredOut;
+    var isOnPath = allPathIds.length === 0 || allPathIds.includes(d.id);
+    el.classed('filtered-out', isFiltered);
+    el.classed('highlighted', allPathIds.length > 0 && isOnPath && !isFiltered);
+    el.classed('dimmed', allPathIds.length > 0 && !isOnPath && !isFiltered);
+  });
+  
+  link.each(function(l) {
+    var el = d3.select(this);
+    var srcId = l.source.id !== undefined ? l.source.id : l.source;
+    var tgtId = l.target.id !== undefined ? l.target.id : l.target;
+    var srcNode = nodes.find(function(n) { return n.id === srcId; });
+    var tgtNode = nodes.find(function(n) { return n.id === tgtId; });
+    var isFiltered = srcNode.filteredOut || tgtNode.filteredOut;
+    var isOnPath = allPathIds.length > 0 && allPathIds.includes(srcId) && allPathIds.includes(tgtId);
+    el.classed('filtered-out', isFiltered);
+    el.classed('highlighted', isOnPath && !isFiltered);
+    el.classed('dimmed', allPathIds.length > 0 && !isOnPath && !isFiltered);
+  });
+}
+
+function showMultiPopup(targetNodes) {
+  var popup = document.getElementById('techPopup');
+  var html = '<span class="close" onclick="hideMultiPopup()">&times;</span>';
+  html += '<div style="font-weight:bold;margin-bottom:10px;color:#4fc3f7;">' + targetNodes.length + ' tecnologie selezionate</div>';
+  html += '<div style="max-height:300px;overflow-y:auto;">';
+  targetNodes.forEach(function(tn, i) {
+    var info = techInfo[tn.techId];
+    html += '<label style="display:flex;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1);cursor:pointer;">';
+    html += '<input type="checkbox" checked onchange="toggleMultiNode(' + tn.techId + ',this.checked)" style="margin-right:10px;">';
+    html += '<span style="color:#ccc;">' + info.nome + '</span></label>';
+  });
+  html += '</div>';
+  popup.innerHTML = html;
+  popup.style.left = '20px';
+  popup.style.top = '100px';
+  popup.classList.add('visible');
+}
+
+function hideMultiPopup() {
+  document.getElementById('techPopup').classList.remove('visible');
+}
+
+function toggleMultiNode(techId, checked) {
+  if (checked) {
+    var n = nodes.find(function(x) { return x.techId === techId; });
+    if (n && selectedNodes.indexOf(n) === -1) selectedNodes.push(n);
+  } else {
+    selectedNodes = selectedNodes.filter(function(n) { return n.techId !== techId; });
+  }
+  if (selectedNodes.length === 0) {
+    clearSelection();
+  } else {
+    updateVisualsMulti();
   }
 }
 
