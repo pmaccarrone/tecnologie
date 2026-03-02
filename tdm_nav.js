@@ -31,8 +31,9 @@
     '#tdm-nav{background:#12122a;border-bottom:1px solid rgba(255,255,255,0.1);padding:0.35rem 1rem;display:flex;align-items:center;gap:0.5rem;font-family:system-ui,-apple-system,sans-serif;position:sticky;top:0;z-index:10000}' +
     '#tdm-nav .tdm-nav-logo{height:32px;width:auto;cursor:pointer;flex-shrink:0;transition:opacity 0.2s}' +
     '#tdm-nav .tdm-nav-logo:hover{opacity:0.7}' +
-    '#tdm-nav .tdm-nav-title{color:#fff;font-size:0.75rem;font-weight:600;margin-right:auto;white-space:nowrap;line-height:1.2}' +
+    '#tdm-nav .tdm-nav-title{color:#fff;font-size:0.75rem;font-weight:600;white-space:nowrap;line-height:1.2}' +
     '#tdm-nav .tdm-nav-title span{color:#00d4ff;font-weight:400;font-size:0.6rem;display:block}' +
+    '#tdm-nav .tdm-nav-page{font-size:0.85rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;white-space:nowrap;margin-right:auto}' +
     '#tdm-nav .tdm-nav-links{display:flex;gap:0.3rem;flex-shrink:0;align-items:center}' +
     '#tdm-nav .tdm-nav-btn{padding:0.25rem 0.6rem;border-radius:5px;text-decoration:none;font-size:0.65rem;font-weight:600;border:1.5px solid;transition:all 0.2s;cursor:pointer;white-space:nowrap;background:rgba(26,26,46,0.9)}' +
     '#tdm-nav .tdm-nav-btn:hover{transform:translateY(-1px);filter:brightness(1.3)}' +
@@ -47,7 +48,7 @@
     '#tdm-sel-dialog .dlg-btn:hover{transform:translateY(-1px)}' +
     '#tdm-sel-dialog .dlg-keep{background:#4ecdc4;color:#000}' +
     '#tdm-sel-dialog .dlg-clear{background:#333;color:#fff;border:1px solid #555}' +
-    '@media(max-width:700px){#tdm-nav{padding:0.3rem 0.5rem;gap:0.3rem}#tdm-nav .tdm-nav-title{display:none}#tdm-nav .tdm-nav-btn{padding:0.2rem 0.4rem;font-size:0.6rem}}';
+    '@media(max-width:700px){#tdm-nav{padding:0.3rem 0.5rem;gap:0.3rem}#tdm-nav .tdm-nav-title{display:none}#tdm-nav .tdm-nav-page{font-size:0.7rem;margin-right:auto}#tdm-nav .tdm-nav-btn{padding:0.2rem 0.4rem;font-size:0.6rem}}';
   document.head.appendChild(style);
 
   // === NAVBAR ===
@@ -66,6 +67,17 @@
   title.className = 'tdm-nav-title';
   title.innerHTML = 'Tecnologie di Produzione<span>Accademia Albertina &middot; Prof. Maccarrone</span>';
   nav.appendChild(title);
+
+  // Titolo pagina corrente
+  var pageTitles = { db: 'DATABASE', forma: 'MAPPA FORMA', materiale: 'MAPPA MATERIALE', tecnologia: 'MAPPA TECNOLOGIA', tutorial: 'TUTORIAL' };
+  if (currentPage && pageTitles[currentPage]) {
+    var currentItem = NAV_ITEMS.find(function(it) { return it.id === currentPage; });
+    var pageTitle = document.createElement('div');
+    pageTitle.className = 'tdm-nav-page';
+    pageTitle.textContent = pageTitles[currentPage];
+    pageTitle.style.color = currentItem ? currentItem.color : '#fff';
+    nav.appendChild(pageTitle);
+  }
 
   var linksDiv = document.createElement('div');
   linksDiv.className = 'tdm-nav-links';
