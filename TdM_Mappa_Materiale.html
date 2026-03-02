@@ -221,43 +221,19 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
   </div>
 </div>
 
-<div class="header">
-  <div class="header-left">
-    <a href="TdM_Home.html" title="Torna alla Home" style="text-decoration:none"><img src="logo_albertina_scontornato.png" alt="Logo Accademia" style="height:48px;margin-right:1rem"></a>
-    <div>
-      <h1>Mappa da Materiali</h1>
-      <p>Accademia Albertina di Belle Arti - Scuola PAI<br>Tecnologia dei Materiali - Prof. Paolo Maccarrone</p>
-    </div>
-    <span class="version">v1.2</span>
+<div class="header" style="padding:0.3rem 1rem;display:flex;align-items:center;justify-content:flex-end;gap:0.4rem;flex-wrap:nowrap;overflow-x:auto">
+  <div class="search-container" style="margin-right:auto">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Cerca tecnologia...">
+    <div class="search-results" id="searchResults"></div>
   </div>
-  <div class="header-right">
-    <div class="search-container">
-      <input type="text" class="search-input" id="searchInput" placeholder="Cerca tecnologia...">
-      <div class="search-results" id="searchResults"></div>
-    </div>
-    <div class="counter">Tecnologie: <span id="techCount">0</span></div>
-    <div class="btn-rows">
-      <div class="btn-row">
-        <button class="btn" id="fitAll" title="Visualizza tutta la mappa">Fit tutto</button>
-        <button class="btn" id="fitSel" title="Centra sulla selezione">Fit selezione</button>
-        <button class="btn" id="sblocca" title="Libera i nodi fissati">Sblocca</button>
-      </div>
-      <div class="btn-row">
-        <button class="btn" id="ripristina" title="Torna all'ultimo backup">Ripristina</button>
-        <button class="btn" id="reset" title="Riorganizza mantenendo backup">Reset</button>
-        <button class="btn" id="riordina" title="Ricalcola layout ottimale">Riordina</button>
-      </div>
-      <div class="btn-row nav-row">
-        <a href="TdM_Home.html" class="btn btn-nav btn-home" title="Home">Home</a>
-        <a href="TdM_DB_tecnologie.html" class="btn btn-nav btn-db" title="Database Tecnologie">Database</a>
-        <a href="TdM_Mappa_Forma.html" class="btn btn-nav btn-mf" title="Mappa Forma">Mappa F</a>
-        <span class="btn btn-nav btn-mm" title="Mappa Materiale (corrente)">Mappa M</span>
-        <a href="TdM_Mappa_tecnologie.html" class="btn btn-nav btn-mt" title="Mappa Tecnologia">Mappa T</a>
-      </div>
-    </div>
-  </div>
+  <div class="counter" style="font-size:0.7rem;white-space:nowrap">Tecnologie: <span id="techCount">0</span></div>
+  <button class="btn" id="fitAll" title="Visualizza tutta la mappa">Fit tutto</button>
+  <button class="btn" id="fitSel" title="Centra sulla selezione">Fit selez.</button>
+  <button class="btn" id="sblocca" title="Libera i nodi fissati">Sblocca</button>
+  <button class="btn" id="ripristina" title="Torna all'ultimo backup">Ripristina</button>
+  <button class="btn" id="reset" title="Riorganizza mantenendo backup">Reset</button>
+  <button class="btn" id="riordina" title="Ricalcola layout ottimale">Riordina</button>
 </div>
-
 <div class="main">
   <svg id="tree"></svg>
   
@@ -1490,5 +1466,6 @@ function checkUrlParams() {
 setTimeout(checkUrlParams, 1800);
 </script>
 
+<script src="tdm_nav.js"></script>
 </body>
 </html>

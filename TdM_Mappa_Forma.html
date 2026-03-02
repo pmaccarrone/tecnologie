@@ -182,29 +182,18 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
   </div>
 </div>
 
-<div class="header">
-  <div>
-    <a href="TdM_Home.html" title="Torna alla Home" style="text-decoration:none"><img src="logo_albertina_scontornato.png" alt="Logo Albertina" style="height:40px;margin-right:10px;vertical-align:middle"></a><h1 style="display:inline;vertical-align:middle">Mappa da Forme</h1>
-    <p>Accademia Albertina - Tecnologia dei Materiali - Prof. Paolo Maccarrone</p>
+<div class="header" style="padding:0.3rem 1rem;display:flex;align-items:center;justify-content:flex-end;gap:0.4rem;flex-wrap:nowrap;overflow-x:auto">
+  <div style="position:relative;display:inline-block;margin-right:auto">
+    <input type="text" id="searchTech" placeholder="🔍 Ricerca tecnologia..." style="padding:0.3rem 0.6rem;border:1px solid #333;background:#1a1a2e;color:#fff;border-radius:4px;font-size:0.7rem;width:180px" oninput="handleSearch(this.value)" autocomplete="off">
+    <div id="searchResults" style="position:absolute;top:100%;left:0;width:300px;max-height:350px;overflow-y:auto;background:#1a1a2e;border:1px solid #00d4ff;border-radius:0 0 8px 8px;z-index:9999;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.5)"></div>
   </div>
-  <div>
-    <div style="position:relative;display:inline-block;margin-right:0.5rem">
-      <input type="text" id="searchTech" placeholder="Ricerca tecnologia..." style="padding:0.3rem 0.6rem;border:1px solid #333;background:#1a1a2e;color:#fff;border-radius:4px;font-size:0.65rem;width:180px" oninput="handleSearch(this.value)" autocomplete="off">
-      <div id="searchResults" style="position:absolute;top:100%;left:0;width:300px;max-height:350px;overflow-y:auto;background:#1a1a2e;border:1px solid #00d4ff;border-radius:0 0 8px 8px;z-index:9999;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.5)"></div>
-    </div>
-    <a class="btn" href="TdM_Home.html" style="text-decoration:none;border:2px solid #fff;color:#fff;background:#2a2a4a">Home</a>
-    <a class="btn" href="TdM_DB_tecnologie.html" style="text-decoration:none;border:2px solid #ffa726;color:#ffa726;background:#2a2a4a">Database</a>
-    <span class="btn" style="border:2px solid #ef5350;color:#ef5350;background:#2a2a4a;opacity:0.5">Mappa F</span>
-    <a class="btn" href="TdM_Mappa_Materiale.html" style="text-decoration:none;border:2px solid #66bb6a;color:#66bb6a;background:#2a2a4a">Mappa M</a>
-    <a class="btn" href="TdM_Mappa_tecnologie.html" style="text-decoration:none;border:2px solid #ab47bc;color:#ab47bc;background:#2a2a4a">Mappa T</a>
-    <button class="btn" onclick="fitView()">[] Fit Tutto</button>
-    <button class="btn" onclick="fitSelection()">() Fit Selezione</button>
-    <button class="btn" onclick="clearSelection()">X Deseleziona</button>
-    <button class="btn" onclick="releaseAll()" title="Sblocca tutti i nodi fissati, lasciandoli riorganizzare dalla fisica">O Sblocca</button>
-    <button class="btn" onclick="restoreLayout()" title="Ripristina l'ultimo layout salvato">&lt; Ripristina</button>
-    <button class="btn" onclick="resetPositions()" title="Cancella tutto e ricomincia da zero">0 Reset</button>
-    <button class="btn" onclick="reheat()">~ Riordina</button>
-  </div>
+  <button class="btn" onclick="fitView()">⊡ Fit Tutto</button>
+  <button class="btn" onclick="fitSelection()">◎ Fit Selez.</button>
+  <button class="btn" onclick="clearSelection()">✕ Deseleziona</button>
+  <button class="btn" onclick="releaseAll()" title="Sblocca nodi fissati">⊙ Sblocca</button>
+  <button class="btn" onclick="restoreLayout()" title="Ripristina layout">↺ Ripristina</button>
+  <button class="btn" onclick="resetPositions()" title="Reset posizioni">↻ Reset</button>
+  <button class="btn" onclick="reheat()">⟳ Riordina</button>
 </div>
 
 <div class="active-filters" id="activeFilters"></div>
@@ -1343,5 +1332,7 @@ window.addEventListener('resize', function() { updateSize(); });
 <footer style="position:fixed;bottom:0;left:0;right:0;background:#0a0a12ee;border-top:1px solid rgba(255,255,255,0.1);padding:0.3rem 1rem;text-align:center;font-size:0.6rem;color:#555;z-index:10">
 Accademia Albertina di Torino | Prof. Paolo Maccarrone | Tecnologia dei Materiali
 </footer>
+<script src="nav.js"></script>
+<script src="tdm_nav.js"></script>
 </body>
 </html>

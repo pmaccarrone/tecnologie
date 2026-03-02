@@ -115,18 +115,10 @@ tr.selected{background:rgba(255,213,79,0.12)}
 </style>
 </head>
 <body>
-<div class="header">
-<div class="header-left">
-<a href="TdM_Home.html" title="Torna alla Home" style="text-decoration:none"><img class="header-logo" src="logo_albertina_scontornato.png" alt="Accademia Albertina"></a>
-<div class="header-info">
-<h1>Database Tecnologie di Produzione</h1>
-<div class="subtitle">Accademia Albertina di Belle Arti - Torino</div>
-<div class="corso">Tecnologia dei Materiali - Prof. Paolo Maccarrone</div>
-</div>
-</div>
+<div class="header" style="padding:0.4rem 1rem;display:flex;justify-content:flex-end;align-items:center;gap:0.4rem">
 <div class="header-btns">
-<a class="btn btn-map" href="TdM_Mappa_tecnologie.html" title="Apri Mappa Tecnologica">&#128506; Mappa</a>
 <button class="btn btn-sel" id="btnSel" onclick="toggleSelezionati()">&#9745; Selezionati <span class="badge" id="selCount">0</span></button>
+<button class="btn" id="btnMap" onclick="openSelectedInMap()" style="display:none;background:linear-gradient(135deg,#a29bfe,#6c5ce7)">&#128506; Vedi in Mappa</button>
 <button class="btn btn-reset" onclick="resetAll()" title="Reset filtri">&#8635; Reset</button>
 <button class="btn btn-export" onclick="exportCSV()">&#8595; CSV</button>
 </div>
@@ -365,15 +357,18 @@ document.querySelectorAll('th.sortable').forEach(function(th){
 
 function toggleSel(id,checked){
   if(checked)selected.add(id);else selected.delete(id);
+  syncSelToStorage();
   updateSelUI();render();
 }
 function toggleAll(checked){
   getFiltered().forEach(function(t){if(checked)selected.add(t.id);else selected.delete(t.id);});
+  syncSelToStorage();
   updateSelUI();render();
 }
 function updateSelUI(){
   document.getElementById('selCount').textContent=selected.size;
   document.getElementById('btnSel').classList.toggle('active',selected.size>0 || showOnlySelected);
+  document.getElementById('btnMap').style.display=selected.size>0?'inline-block':'none';
 }
 function resetAll(){
   search="";
@@ -383,6 +378,7 @@ function resetAll(){
   tipoFilter="";
   selected.clear();
   showOnlySelected=false;
+  localStorage.removeItem('tdm_selected');
   document.getElementById("search").value="";
   document.getElementById("btnSel").classList.remove("active");
   document.getElementById("selCount").textContent="0";
@@ -395,6 +391,22 @@ function toggleSelezionati(){
   showOnlySelected=!showOnlySelected;
   document.getElementById('btnSel').classList.toggle('active',showOnlySelected);
   render();
+}
+
+function syncSelToStorage(){
+  localStorage.setItem('tdm_selected',JSON.stringify(Array.from(selected)));
+}
+function loadSelFromStorage(){
+  try{
+    var saved=localStorage.getItem('tdm_selected');
+    if(saved){var ids=JSON.parse(saved);ids.forEach(function(id){selected.add(id);});updateSelUI();render();}
+  }catch(e){}
+}
+function openSelectedInMap(){
+  if(selected.size===0)return;
+  if(selected.size>10){if(!confirm('Hai '+selected.size+' tecnologie selezionate. Più di 10 potrebbe risultare confuso sulla mappa. Procedere?'))return;}
+  syncSelToStorage();
+  window.open('TdM_Mappa_tecnologie.html?tech='+Array.from(selected).join(','),'tdm_mappa');
 }
 
 function openModal(id){
@@ -482,10 +494,12 @@ function checkUrlParam() {
 }
 
 render();
+loadSelFromStorage();
 checkUrlParam();
 </script>
 <footer style="background:#1a1a2e;border-top:1px solid rgba(255,255,255,0.08);padding:0.5rem 1rem;text-align:center;font-size:0.65rem;color:#666">
 Accademia Albertina di Torino | Prof. Paolo Maccarrone | Tecnologia dei Materiali
 </footer>
+<script src="tdm_nav.js"></script>
 </body>
 </html>

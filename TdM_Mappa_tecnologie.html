@@ -139,25 +139,18 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
 </head>
 <body>
 
-<div class="header">
-  <div>
-    <a href="TdM_Home.html" title="Torna alla Home" style="text-decoration:none"><img src="logo_albertina_scontornato.png" alt="Logo Albertina" style="height:40px;margin-right:10px;vertical-align:middle"></a><h1 style="display:inline;vertical-align:middle">Mappa Tecnologica</h1>
-    <p>Accademia Albertina - Tecnologia dei Materiali - Prof. Paolo Maccarrone</p>
+<div class="header" style="padding:0.3rem 1rem;display:flex;align-items:center;justify-content:flex-end;gap:0.4rem;flex-wrap:nowrap;overflow-x:auto">
+  <div style="position:relative;display:inline-block;margin-right:auto">
+    <input type="text" id="searchTech" placeholder="🔍 Ricerca tecnologia..." style="padding:0.3rem 0.6rem;border:1px solid #333;background:#1a1a2e;color:#fff;border-radius:4px;font-size:0.7rem;width:180px" oninput="handleSearch(this.value)" autocomplete="off">
+    <div id="searchResults" style="position:absolute;top:100%;left:0;width:300px;max-height:350px;overflow-y:auto;background:#1a1a2e;border:1px solid #00d4ff;border-radius:0 0 8px 8px;z-index:9999;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.5)"></div>
   </div>
-  <div>
-    <div style="position:relative;display:inline-block;margin-right:0.5rem">
-      <input type="text" id="searchTech" placeholder="🔍 Ricerca tecnologia..." style="padding:0.3rem 0.6rem;border:1px solid #333;background:#1a1a2e;color:#fff;border-radius:4px;font-size:0.65rem;width:180px" oninput="handleSearch(this.value)" autocomplete="off">
-      <div id="searchResults" style="position:absolute;top:100%;left:0;width:300px;max-height:350px;overflow-y:auto;background:#1a1a2e;border:1px solid #00d4ff;border-radius:0 0 8px 8px;z-index:9999;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.5)"></div>
-    </div>
-    <a class="btn" href="TdM_DB_tecnologie.html" style="text-decoration:none;background:linear-gradient(135deg,#00695C,#00897B)">🔍â€¹ Database</a>
-    <button class="btn" onclick="fitView()">⊡ Fit Tutto</button>
-    <button class="btn" onclick="fitSelection()">◎ Fit Selezione</button>
-    <button class="btn" onclick="clearSelection()">âœ• Deseleziona</button>
-    <button class="btn" onclick="releaseAll()" title="Sblocca tutti i nodi fissati, lasciandoli riorganizzare dalla fisica">⊙ Sblocca</button>
-    <button class="btn" onclick="restoreLayout()" title="Ripristina l'ultimo layout salvato">↺ Ripristina</button>
-    <button class="btn" onclick="resetPositions()" title="Cancella tutto e ricomincia da zero">↻ Reset</button>
-    <button class="btn" onclick="reheat()">⟳ Riordina</button>
-  </div>
+  <button class="btn" onclick="fitView()">⊡ Fit Tutto</button>
+  <button class="btn" onclick="fitSelection()">◎ Fit Selez.</button>
+  <button class="btn" onclick="clearSelection()">✕ Deseleziona</button>
+  <button class="btn" onclick="releaseAll()" title="Sblocca nodi fissati">⊙ Sblocca</button>
+  <button class="btn" onclick="restoreLayout()" title="Ripristina layout">↺ Ripristina</button>
+  <button class="btn" onclick="resetPositions()" title="Reset posizioni">↻ Reset</button>
+  <button class="btn" onclick="reheat()">⟳ Riordina</button>
 </div>
 
 <div class="active-filters" id="activeFilters"></div>
@@ -168,7 +161,7 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
   
   <div class="filters-panel" id="filtersPanel">
     <div class="filters-inner">
-      <div class="filters-title">Requisiti<span onclick="toggleFilters()">âœ•</span></div>
+      <div class="filters-title">Requisiti<span onclick="toggleFilters()">✕</span></div>
       <div class="filter-group">
         <div class="filter-group-title">Proprietà ottiche</div>
         <div class="filter-item"><input type="checkbox" id="f_trasparente" onchange="applyFilters()"><label for="f_trasparente">Trasparente</label><span class="count" id="c_trasparente"></span></div>
@@ -210,14 +203,18 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
 </div>
 
 <div class="tech-popup" id="techPopup">
-  <span class="close" onclick="closePopup()">âœ•</span>
+  <span class="close" onclick="closePopup()">✕</span>
   <h3 id="popupTitle"></h3>
   <div class="cat" id="popupCat"></div>
   <div class="desc" id="popupDesc"></div>
   <div class="mat" id="popupMat"></div>
   <div class="reqs" id="popupReqs"></div>
-  <button class="btn-open" onclick="openFullCard()">🔍â€¹ Apri scheda completa nel Database</button>
+  <button class="btn-open" onclick="openFullCard()">🔍 Apri scheda completa nel Database</button>
 </div>
+
+<div class="tech-popup" id="selectionBox" style="left:20px;top:100px;"></div>
+
+<div class="tech-popup" id="selectionBox" style="left:20px;top:100px;"></div>
 
 <div class="node-tooltip" id="nodeTooltip"></div>
 
@@ -321,7 +318,9 @@ var node = g.append('g').selectAll('g').data(nodes).enter().append('g')
   .call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended))
   .on('click', function(e, d) { 
     e.stopPropagation(); 
-    if (d.level === 4 && d.techId) {
+    if (e.ctrlKey || e.metaKey || e.shiftKey) {
+      if (d.level === 4 && d.techId) addToMultiSelection(d);
+    } else if (d.level === 4 && d.techId) {
       showPopup(e, d);
     } else {
       selectNode(d); 
@@ -370,11 +369,13 @@ node.each(function(d) {
   } else {
     textEl.attr('dy', SIZES[d.level].isCircle ? 18 : 6);
     var n = d.name, maxLen = d.level === 4 ? 20 : (d.level <= 1 ? 14 : 16);
-    textEl.text(n.length > maxLen ? n.substring(0, maxLen-1) + 'â€¦' : n);
+    textEl.text(n.length > maxLen ? n.substring(0, maxLen-1) + '…' : n);
   }
 });
 
 var selectedNode = null;
+var multiSelectedNodes = [];
+var activeNodeIds = new Set();
 var activeFilters = [];
 var currentSearchQuery = '';
 var currentTechId = null;
@@ -432,7 +433,7 @@ function showTooltip(event, d) {
     if (anc && anc.level > 0) pathParts.push(anc.name);
   });
   if (pathParts.length > 0) {
-    html += '<div class="tt-path">' + pathParts.join(' â€º ') + '</div>';
+    html += '<div class="tt-path">' + pathParts.join(' › ') + '</div>';
   }
   
   // Per tecnologie (L4): mostra info extra
@@ -492,10 +493,35 @@ function toggleLegend() {
 }
 
 function selectNode(d) {
-  if (selectedNode === d) { clearSelection(); return; }
+  var idx = selectedNodes.findIndex(function(n) { return n.id === d.id; });
+  if (idx >= 0) {
+    selectedNodes.splice(idx, 1);
+    popupNodes = popupNodes.filter(function(n) { return n.id !== d.id; });
+    if (d.techId) activeNodeIds.delete(d.techId);
+    var techIds = selectedNodes.map(function(n) { return n.techId; }).filter(Boolean);
+    localStorage.setItem('tdm_selected', JSON.stringify(techIds));
+    if (selectedNodes.length === 0) {
+      clearSelection();
+    } else {
+      selectedNode = selectedNodes[selectedNodes.length - 1];
+      updateVisualsMulti();
+      showMultiPopup();
+    }
+    return;
+  }
+  selectedNodes.push(d);
+  if (d.techId) {
+    activeNodeIds.add(d.techId);
+    if (!popupNodes.find(function(n) { return n.techId === d.techId; })) {
+      popupNodes.push(d);
+    }
+  }
   selectedNode = d;
-  updateVisuals();
+  var techIds = selectedNodes.map(function(n) { return n.techId; }).filter(Boolean);
+  localStorage.setItem('tdm_selected', JSON.stringify(techIds));
+  updateVisualsMulti();
   updateBreadcrumb(d);
+  if (selectedNodes.length > 0) showMultiPopup();
 }
 
 function selectNodeById(nodeId) {
@@ -505,20 +531,23 @@ function selectNodeById(nodeId) {
 
 function clearSelection() {
   selectedNode = null;
+  multiSelectedNodes = [];
+  activeNodeIds.clear();
   currentSearchQuery = '';
   document.getElementById('searchTech').value = '';
   document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('selectionBox').classList.remove('visible');
   updateVisuals();
   document.getElementById('breadcrumb').classList.remove('visible');
 }
 
-function updateVisuals() {
-  var pathIds = [];
-  if (selectedNode) {
-    pathIds = selectedNode.ancestors.concat(selectedNode.descendantIds);
-  }
-  
-  // Calcola i nodi che matchano la ricerca
+function updateVisualsMulti() {
+  var selectedIds = new Set();
+  selectedNodes.forEach(function(sn) {
+    selectedIds.add(sn.id);
+    sn.ancestors.forEach(function(aid) { selectedIds.add(aid); });
+  });
+  var hasSelection = selectedIds.size > 0;
   var searchMatchIds = new Set();
   if (currentSearchQuery) {
     nodes.forEach(function(n) {
@@ -527,45 +556,41 @@ function updateVisuals() {
       }
     });
   }
-  
   node.each(function(d) {
     var el = d3.select(this);
     var isFiltered = d.filteredOut;
-    var isOnPath = pathIds.length === 0 || pathIds.includes(d.id);
-    var matchesSearch = !currentSearchQuery || searchMatchIds.has(d.id);
-    
+    var isSelected = selectedIds.has(d.id);
     el.classed('filtered-out', isFiltered);
-    
-    // Logica ricerca: ha priorità
     if (currentSearchQuery) {
+      var matchesSearch = searchMatchIds.has(d.id);
       el.classed('highlighted', matchesSearch && !isFiltered);
       el.classed('dimmed', !matchesSearch && !isFiltered);
     } else {
-      el.classed('highlighted', pathIds.length > 0 && pathIds.includes(d.id) && !isFiltered);
-      el.classed('dimmed', pathIds.length > 0 && !pathIds.includes(d.id) && !isFiltered);
+      el.classed('highlighted', isSelected && !isFiltered);
+      el.classed('dimmed', hasSelection && !isSelected && !isFiltered);
     }
   });
-  
   link.each(function(l) {
     var el = d3.select(this);
     var srcId = l.source.id !== undefined ? l.source.id : l.source;
     var tgtId = l.target.id !== undefined ? l.target.id : l.target;
     var srcNode = nodes.find(function(n) { return n.id === srcId; });
     var tgtNode = nodes.find(function(n) { return n.id === tgtId; });
-    var isFiltered = srcNode.filteredOut || tgtNode.filteredOut;
-    var isOnPath = pathIds.length > 0 && pathIds.includes(srcId) && pathIds.includes(tgtId);
-    
+    var isFiltered = (srcNode && srcNode.filteredOut) || (tgtNode && tgtNode.filteredOut);
+    var isOnPath = selectedIds.has(srcId) && selectedIds.has(tgtId);
     el.classed('filtered-out', isFiltered);
-    
-    // Logica ricerca per i link
     if (currentSearchQuery) {
       el.classed('dimmed', true);
       el.classed('highlighted', false);
     } else {
       el.classed('highlighted', isOnPath && !isFiltered);
-      el.classed('dimmed', pathIds.length > 0 && !isOnPath && !isFiltered);
+      el.classed('dimmed', hasSelection && !isOnPath && !isFiltered);
     }
   });
+}
+
+function updateVisuals() {
+  updateVisualsMulti();
 }
 
 function updateBreadcrumb(d) {
@@ -649,7 +674,7 @@ function updateActiveFiltersBar() {
   if (activeFilters.length === 0) { bar.classList.remove('visible'); return; }
   var html = '<span>Filtri attivi:</span>';
   activeFilters.forEach(function(f) {
-    html += '<span class="tag">' + f.replace('_', ' ') + ' <span onclick="removeFilter(\'' + f + '\')">âœ•</span></span>';
+    html += '<span class="tag">' + f.replace('_', ' ') + ' <span onclick="removeFilter(\'' + f + '\')">✕</span></span>';
   });
   var remaining = nodes.filter(function(n) { return n.level === 4 && !n.filteredOut; }).length;
   html += '<span style="margin-left:auto;color:#4CAF50">' + remaining + ' tecnologie</span>';
@@ -793,7 +818,7 @@ function buildPathText(n) {
       parts.push(anc.name);
     }
   });
-  return parts.join(' â€º ');
+  return parts.join(' › ');
 }
 
 function selectSearchResult(nodeId) {
@@ -827,6 +852,61 @@ function fitView() {
   svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
 }
 
+function showMultiPopup() {
+  var popup = document.getElementById('selectionBox');
+  if (!popup) return;
+  var seen = {};
+  var uniquePopupNodes = popupNodes.filter(function(n) {
+    if (!n.techId || seen[n.techId]) return false;
+    seen[n.techId] = true;
+    return true;
+  });
+  if (uniquePopupNodes.length === 0) { hideMultiPopup(); return; }
+  var activeTechIds = selectedNodes.map(function(n) { return n.techId; });
+  var activeCount = [...new Set(activeTechIds.filter(Boolean))].length;
+  var html = '<span class="close" onclick="hideMultiPopup()">&times;</span>';
+  html += '<div style="font-weight:bold;margin-bottom:10px;color:#4fc3f7;">' + activeCount + ' di ' + uniquePopupNodes.length + ' selezionate</div>';
+  html += '<div style="max-height:300px;overflow-y:auto;">';
+  uniquePopupNodes.forEach(function(tn) {
+    var info = fullData.find(function(t) { return t.id === tn.techId; });
+    var nome = info ? info.nome : tn.name;
+    var isActive = activeTechIds.indexOf(tn.techId) >= 0;
+    html += '<label style="display:flex;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1);cursor:pointer;">';
+    html += '<input type="checkbox" ' + (isActive ? 'checked' : '') + ' onchange="toggleMultiNode(' + tn.techId + ',this.checked)" style="margin-right:10px;">';
+    html += '<span style="color:' + (isActive ? '#ccc' : '#666') + ';">' + nome + '</span></label>';
+  });
+  html += '</div>';
+  popup.innerHTML = html;
+  popup.classList.add('visible');
+}
+
+function hideMultiPopup() {
+  var sb = document.getElementById('selectionBox');
+  if (sb) sb.classList.remove('visible');
+}
+
+function toggleMultiNode(techId, checked) {
+  if (checked) {
+    popupNodes.forEach(function(pn) {
+      if (pn.techId === techId && selectedNodes.indexOf(pn) === -1) {
+        selectedNodes.push(pn);
+        activeNodeIds.add(techId);
+      }
+    });
+  } else {
+    selectedNodes = selectedNodes.filter(function(n) { return n.techId !== techId; });
+    activeNodeIds.delete(techId);
+  }
+  var techIds = [...new Set(selectedNodes.map(function(n) { return n.techId; }).filter(Boolean))];
+  localStorage.setItem('tdm_selected', JSON.stringify(techIds));
+  if (selectedNodes.length === 0) {
+    clearSelection();
+  } else {
+    updateVisualsMulti();
+  }
+  showMultiPopup();
+}
+
 function fitSelection() {
   if (!selectedNode) { fitView(); return; }
   var allPathIds = selectedNode.ancestors.concat(selectedNode.descendantIds);
@@ -856,93 +936,145 @@ if (hadSavedPositions) {
 }
 
 // Supporto URL parameter ?tech=ID per evidenziare tecnologia
+// === MULTI-SELEZIONE ===
+function saveSelectionToStorage() {
+  var techIds = multiSelectedNodes.filter(function(n) { return activeNodeIds.has(n.techId); }).map(function(n) { return n.techId; });
+  localStorage.setItem('tdm_selected', JSON.stringify(techIds));
+}
+
+function addToMultiSelection(d) {
+  if (!d.techId) return;
+  var idx = multiSelectedNodes.findIndex(function(n) { return n.id === d.id; });
+  if (idx >= 0) {
+    if (activeNodeIds.has(d.techId)) { activeNodeIds.delete(d.techId); } else { activeNodeIds.add(d.techId); }
+  } else {
+    multiSelectedNodes.push(d);
+    activeNodeIds.add(d.techId);
+  }
+  saveSelectionToStorage();
+  updateMultiSelectionDisplay();
+}
+
+function updateMultiSelectionDisplay() {
+  updateVisualsMulti();
+  if (multiSelectedNodes.length > 0) { showMultiPopup(multiSelectedNodes); } else { hideMultiPopup(); }
+}
+
+function updateVisualsMulti() {
+  var activePaths = new Set();
+  multiSelectedNodes.forEach(function(sn) {
+    if (activeNodeIds.has(sn.techId)) {
+      sn.ancestors.forEach(function(aid) { activePaths.add(aid); });
+      activePaths.add(sn.id);
+    }
+  });
+  var hasActive = activePaths.size > 0;
+  node.each(function(d) {
+    var el = d3.select(this);
+    var isFiltered = d.filteredOut;
+    var isOnPath = !hasActive || activePaths.has(d.id);
+    el.classed('filtered-out', isFiltered);
+    el.classed('highlighted', hasActive && activePaths.has(d.id) && !isFiltered);
+    el.classed('dimmed', hasActive && !activePaths.has(d.id) && !isFiltered);
+  });
+  link.each(function(l) {
+    var el = d3.select(this);
+    var srcId = l.source.id !== undefined ? l.source.id : l.source;
+    var tgtId = l.target.id !== undefined ? l.target.id : l.target;
+    var srcNode = nodes.find(function(n) { return n.id === srcId; });
+    var tgtNode = nodes.find(function(n) { return n.id === tgtId; });
+    var isFiltered = srcNode.filteredOut || tgtNode.filteredOut;
+    var isOnPath = hasActive && activePaths.has(srcId) && activePaths.has(tgtId);
+    el.classed('filtered-out', isFiltered);
+    el.classed('highlighted', isOnPath && !isFiltered);
+    el.classed('dimmed', hasActive && !isOnPath && !isFiltered);
+  });
+}
+
+function showMultiPopup(targetNodes) {
+  var popup = document.getElementById('selectionBox');
+  var activeCount = targetNodes.filter(function(tn) { return activeNodeIds.has(tn.techId); }).length;
+  var html = '<span class="close" onclick="hideMultiPopup()">&times;</span>';
+  html += '<div style="font-weight:bold;margin-bottom:10px;color:#4fc3f7;">' + activeCount + '/' + targetNodes.length + ' tecnologie attive</div>';
+  html += '<div style="max-height:300px;overflow-y:auto;">';
+  targetNodes.forEach(function(tn) {
+    var info = techInfo[tn.techId];
+    if (info) {
+      var isActive = activeNodeIds.has(tn.techId);
+      var checkedAttr = isActive ? 'checked' : '';
+      var textColor = isActive ? '#ccc' : '#666';
+      html += '<label style="display:flex;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1);cursor:pointer;">';
+      html += '<input type="checkbox" ' + checkedAttr + ' onchange="toggleMultiNode(' + tn.techId + ',this.checked)" style="margin-right:10px;">';
+      html += '<span style="color:' + textColor + ';">' + info.nome + '</span></label>';
+    }
+  });
+  html += '</div>';
+  popup.innerHTML = html;
+  popup.classList.add('visible');
+}
+
+function hideMultiPopup() {
+  document.getElementById('selectionBox').classList.remove('visible');
+  multiSelectedNodes = [];
+  activeNodeIds.clear();
+  localStorage.removeItem('tdm_selected');
+  updateVisuals();
+}
+
+function toggleMultiNode(techId, checked) {
+  if (checked) { activeNodeIds.add(techId); } else { activeNodeIds.delete(techId); }
+  saveSelectionToStorage();
+  updateVisualsMulti();
+  showMultiPopup(multiSelectedNodes);
+}
+
 function checkUrlParam() {
   var params = new URLSearchParams(window.location.search);
-  var techId = params.get('tech');
-  if (techId) {
-    var id = parseInt(techId);
-    if (!isNaN(id)) {
-      // Trova il nodo con questo techId
-      var targetNode = nodes.find(function(n) { return n.techId === id; });
-      if (targetNode) {
-        // Prima assicurati che il layout salvato sia applicato
-        var saved = localStorage.getItem('albero_positions_v1');
-        if (saved) {
-          try {
-            var positions = JSON.parse(saved);
-            positions.forEach(function(p) {
-              var n = nodes.find(function(x) { return x.id === p.id; });
-              if (n) { 
-                n.x = p.x; 
-                n.y = p.y; 
-                if (p.fx !== null) {
-                  n.fx = p.fx; 
-                  n.fy = p.fy;
-                }
-              }
-            });
-            node.classed('fixed', function(d) { return d.fx !== null; });
-            simulation.alpha(0.05).restart(); // Leggera stabilizzazione
-          } catch(e) {}
-        }
-        
-        // Aspetta stabilizzazione poi zooma sul percorso
-        setTimeout(function() {
-          // Seleziona e evidenzia il percorso
-          selectNode(targetNode);
-          
-          // Calcola bounding box del percorso completo (ancestors + nodo)
-          var pathNodes = targetNode.ancestors.map(function(aid) {
-            return nodes.find(function(n) { return n.id === aid; });
-          }).filter(function(n) { return n && typeof n.x === 'number' && !isNaN(n.x); });
-          if (typeof targetNode.x === 'number' && !isNaN(targetNode.x)) {
-            pathNodes.push(targetNode);
-          }
-          
-          // Se non abbiamo abbastanza nodi con posizioni valide, aspetta ancora
-          if (pathNodes.length < 2) {
-            console.log('Posizioni non pronte, riprovo...');
-            setTimeout(arguments.callee, 500);
-            return;
-          }
-          
-          var minX = d3.min(pathNodes, function(n) { return n.x; });
-          var maxX = d3.max(pathNodes, function(n) { return n.x; });
-          var minY = d3.min(pathNodes, function(n) { return n.y; });
-          var maxY = d3.max(pathNodes, function(n) { return n.y; });
-          
-          // Calcola scala per vedere tutto il percorso con padding
-          var padding = 200;
-          var pathWidth = maxX - minX + padding * 2;
-          var pathHeight = maxY - minY + padding * 2;
-          var scaleX = width / pathWidth;
-          var scaleY = height / pathHeight;
-          var scale = Math.min(scaleX, scaleY, 1.5); // max 1.5x
-          scale = Math.max(scale, 0.4); // min 0.4x per vedere percorsi lunghi
-          
-          // Centra sul percorso
-          var centerX = (minX + maxX) / 2;
-          var centerY = (minY + maxY) / 2;
-          var tx = width/2 - centerX * scale;
-          var ty = height/2 - centerY * scale;
-          
-          svg.transition().duration(1000).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
-          
-          // Dopo lo zoom, mostra popup e aggiungi effetto pulse
-          setTimeout(function() {
-            showPopupForNode(targetNode);
-            // Pulse effect sul nodo target
-            var targetCircle = node.filter(function(d) { return d.id === targetNode.id; }).select('circle');
-            targetCircle
-              .transition().duration(300).attr('r', targetNode.radius * 1.6)
-              .transition().duration(300).attr('r', targetNode.radius * 1.2)
-              .transition().duration(200).attr('r', targetNode.radius);
-          }, 1100);
-          
-        }, 800); // Aspetta che il layout si stabilizzi
-      }
-    }
+  var techParam = params.get('tech');
+  var techIds = [];
+  if (techParam) {
+    techIds = techParam.split(',').map(function(s) { return parseInt(s.trim()); }).filter(function(n) { return !isNaN(n); });
+  } else {
+    try {
+      var savedSel = localStorage.getItem('tdm_selected');
+      if (savedSel) techIds = JSON.parse(savedSel);
+    } catch(e) {}
   }
+  if (!Array.isArray(techIds) || techIds.length === 0) return;
+  techIds.forEach(function(tid) {
+    var techNode = nodes.find(function(n) { return n.techId === tid; });
+    if (techNode && !selectedNodes.find(function(s) { return s.id === techNode.id; })) {
+      selectedNodes.push(techNode);
+      popupNodes.push(techNode);
+      activeNodeIds.add(tid);
+    }
+  });
+  if (selectedNodes.length === 0) return;
+  selectedNode = selectedNodes[selectedNodes.length - 1];
+  updateVisualsMulti();
+  setTimeout(function() {
+    var allPathIds = new Set();
+    selectedNodes.forEach(function(sn) {
+      sn.ancestors.forEach(function(aid) { allPathIds.add(aid); });
+      allPathIds.add(sn.id);
+    });
+    var pathNodes = nodes.filter(function(n) { return allPathIds.has(n.id); });
+    if (pathNodes.length === 0) return;
+    var minX = d3.min(pathNodes, function(n) { return n.x; }) - 80;
+    var maxX = d3.max(pathNodes, function(n) { return n.x; }) + 80;
+    var minY = d3.min(pathNodes, function(n) { return n.y; }) - 80;
+    var maxY = d3.max(pathNodes, function(n) { return n.y; }) + 80;
+    var bw = maxX - minX, bh = maxY - minY;
+    var scale = Math.min(width / bw, height / bh, 1.5);
+    scale = Math.max(scale, 0.4);
+    var tx = width/2 - (minX + bw/2) * scale;
+    var ty = height/2 - (minY + bh/2) * scale;
+    svg.transition().duration(800).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+    setTimeout(function() {
+      if (selectedNodes.length > 1) showMultiPopup();
+      else if (selectedNodes.length === 1) showPopupForNode(selectedNodes[0]);
+    }, 900);
+  }, 1200);
 }
 
 function showPopupForNode(d) {
@@ -973,5 +1105,6 @@ window.addEventListener('resize', function() { updateSize(); });
 <footer style="position:fixed;bottom:0;left:0;right:0;background:#0a0a12ee;border-top:1px solid rgba(255,255,255,0.1);padding:0.3rem 1rem;text-align:center;font-size:0.6rem;color:#555;z-index:10">
 Accademia Albertina di Torino | Prof. Paolo Maccarrone | Tecnologia dei Materiali
 </footer>
+<script src="tdm_nav.js"></script>
 </body>
 </html>
