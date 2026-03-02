@@ -3,268 +3,331 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tutorial - Tecnologie di Produzione</title>
+<title>Tutorial - Strumenti Tecnologie di Produzione</title>
 <style>
-:root{--bg:#0f0f1a;--card:#1a1a2e;--accent:#00d4ff;--text:#fff;--muted:#8888aa;--border:rgba(255,255,255,0.1)}
+:root{--bg:#0f0f1a;--card:#1a1a2e;--card2:#252540;--accent:#00d4ff;--text:#fff;--muted:#8888aa;--border:rgba(255,255,255,0.08)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;padding:2rem;max-width:900px;margin:0 auto}
-header{text-align:center;margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
-.logo{width:80px;height:auto;margin-bottom:1rem}
-h1{font-size:1.8rem;margin-bottom:0.5rem;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle{color:var(--muted);font-size:1rem}
-nav{background:var(--card);border-radius:12px;padding:1rem 1.5rem;margin-bottom:2rem;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.6);border-bottom:1px solid var(--border)}
-nav h2{font-size:0.9rem;color:var(--accent);margin-right:1rem;display:inline}
-nav ul{list-style:none;display:inline-flex;flex-wrap:wrap;gap:0.5rem}
-nav a{color:var(--text);text-decoration:none;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border-radius:6px;font-size:0.85rem;transition:all 0.2s}
-nav a:hover{background:var(--accent);color:#000}
-section{background:var(--card);border-radius:12px;padding:2rem;margin-bottom:1.5rem;scroll-margin-top:5rem}
-h2{font-size:1.3rem;color:var(--accent);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
-h3{font-size:1.1rem;color:#fff;margin:1.5rem 0 0.75rem 0}
-p{margin-bottom:1rem;color:#ccc}
-ul,ol{margin:1rem 0 1rem 1.5rem;color:#ccc}
-li{margin-bottom:0.5rem}
-.highlight{background:rgba(0,212,255,0.1);border-left:3px solid var(--accent);padding:1rem;border-radius:0 8px 8px 0;margin:1rem 0}
-.warning{background:rgba(255,193,7,0.1);border-left:3px solid #ffc107;padding:1rem;border-radius:0 8px 8px 0;margin:1rem 0}
-.tip{background:rgba(76,175,80,0.1);border-left:3px solid #4caf50;padding:1rem;border-radius:0 8px 8px 0;margin:1rem 0}
-code{background:rgba(255,255,255,0.1);padding:0.2rem 0.5rem;border-radius:4px;font-family:monospace;font-size:0.9rem}
-.btn-example{display:inline-block;padding:0.4rem 0.8rem;border-radius:6px;font-size:0.8rem;margin:0.2rem;color:#fff}
-.btn-home{background:linear-gradient(135deg,#37474F,#546E7A)}
-.btn-db{background:linear-gradient(135deg,#00897B,#4DB6AC)}
-.btn-forma{background:linear-gradient(135deg,#C2185B,#E91E63)}
-.btn-materiale{background:linear-gradient(135deg,#1976D2,#2196F3)}
-.btn-tecnologia{background:linear-gradient(135deg,#7B1FA2,#9C27B0)}
-table{width:100%;border-collapse:collapse;margin:1rem 0}
-th,td{padding:0.75rem;text-align:left;border-bottom:1px solid var(--border)}
-th{color:var(--accent);font-weight:600}
-td{color:#ccc}
-.back-home{display:inline-block;margin-top:2rem;padding:0.75rem 1.5rem;background:var(--accent);color:#000;text-decoration:none;border-radius:8px;font-weight:600;transition:all 0.2s}
-.back-home:hover{background:#fff}
-footer{text-align:center;padding:2rem 0;color:var(--muted);font-size:0.8rem;border-top:1px solid var(--border);margin-top:2rem}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+header{text-align:center;padding:2rem 0 3rem;border-bottom:1px solid var(--border);margin-bottom:2rem}
+.logo-container{margin-bottom:1.5rem}
+.logo-container img{width:100px;height:auto}
+.credits{color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem;line-height:1.5}
+.credits .accademia{font-weight:600;color:#fff;font-size:0.95rem}
+.credits .scuola{color:var(--accent);font-size:0.85rem;margin-top:0.2rem}
+.credits .corso{font-weight:500;margin-top:0.6rem}
+.credits .prof{font-style:italic;margin-top:0.1rem}
+header h1{font-size:2rem;background:linear-gradient(135deg,#fff,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem}
+header .subtitle{color:var(--accent);font-size:1rem;font-weight:500}
+
+.intro{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:2rem;border-left:4px solid var(--accent)}
+.intro p{color:#ccc}
+
+h2{color:var(--accent);font-size:1.4rem;margin:2rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+h3{color:#fff;font-size:1.1rem;margin:1.5rem 0 0.8rem}
+
+.tool-section{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.tool-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.tool-icon{font-size:2rem}
+.tool-title{font-size:1.3rem;color:#fff}
+.tool-desc{color:var(--muted);font-size:0.9rem}
+
+.feature-list{list-style:none;margin:1rem 0}
+.feature-list li{padding:0.6rem 0;padding-left:1.8rem;position:relative;border-bottom:1px solid var(--border)}
+.feature-list li:last-child{border-bottom:none}
+.feature-list li::before{content:'✓';position:absolute;left:0;color:#4CAF50;font-weight:bold}
+
+.tip-box{background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(0,212,255,0.05));border:1px solid rgba(0,212,255,0.3);border-radius:8px;padding:1rem;margin:1rem 0}
+.tip-box .tip-title{color:var(--accent);font-weight:600;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem}
+.tip-box p{color:#ccc;font-size:0.9rem}
+
+.warning-box{background:linear-gradient(135deg,rgba(255,152,0,0.1),rgba(255,152,0,0.05));border:1px solid rgba(255,152,0,0.3);border-radius:8px;padding:1rem;margin:1rem 0}
+.warning-box .warning-title{color:#ffb74d;font-weight:600;margin-bottom:0.5rem}
+.warning-box p{color:#ccc;font-size:0.9rem}
+
+.steps{counter-reset:step}
+.step{background:var(--card2);border-radius:8px;padding:1rem 1rem 1rem 3.5rem;margin:0.8rem 0;position:relative}
+.step::before{counter-increment:step;content:counter(step);position:absolute;left:1rem;top:1rem;background:var(--accent);color:#000;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:0.9rem}
+.step-title{font-weight:600;color:#fff;margin-bottom:0.3rem}
+.step p{color:#aaa;font-size:0.9rem}
+
+.keyboard{display:inline-block;background:#333;border:1px solid #555;border-radius:4px;padding:0.15rem 0.5rem;font-family:monospace;font-size:0.85rem;color:#fff}
+
+.link-buttons{display:flex;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
+.link-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.8rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600;transition:all 0.2s}
+.link-btn.database{background:linear-gradient(135deg,#00695C,#00897B);color:#fff}
+.link-btn.mappa{background:linear-gradient(135deg,#1565c0,#1976d2);color:#fff}
+.link-btn:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,0.3)}
+
+.shortcut-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.shortcut-table th,.shortcut-table td{padding:0.7rem;text-align:left;border-bottom:1px solid var(--border)}
+.shortcut-table th{color:var(--accent);font-weight:600}
+.shortcut-table td:first-child{color:#fff;font-weight:500}
+.shortcut-table td:last-child{color:#aaa}
+
+.workflow{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin:1rem 0;padding:1rem;background:var(--card2);border-radius:8px}
+.workflow-item{background:var(--card);padding:0.5rem 1rem;border-radius:6px;font-size:0.9rem}
+.workflow-arrow{color:var(--accent);font-size:1.2rem}
+
+footer{text-align:center;padding:2rem 0;margin-top:2rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.8rem}
 </style>
 </head>
 <body>
 
-<header>
-<img src="logo_albertina_scontornato.png" alt="Logo Accademia Albertina" class="logo">
-<h1>Tutorial - Tecnologie di Produzione</h1>
-<p class="subtitle">Guida all'uso degli strumenti interattivi</p>
-</header>
+<div class="container">
+  <header>
+    <div class="logo-container">
+      <a href="TdM_Home.html" title="Torna alla Home" style="text-decoration:none"><img src="logo_albertina_scontornato.png" alt="Accademia Albertina di Belle Arti di Torino"></a>
+    </div>
+    <div class="credits">
+      <div class="accademia">Accademia Albertina di Belle Arti di Torino</div>
+      <div class="scuola">Scuola PAI – Progettazione Artistica per l'Impresa</div>
+      <div class="corso">Tecnologia dei Materiali</div>
+      <div class="prof">Prof. Paolo Maccarrone</div>
+    </div>
+    <h1>Strumenti per le Tecnologie di Produzione</h1>
+    <div class="subtitle">Guida all'uso per gli studenti</div>
+  </header>
 
-<nav>
-<a href="TdM_Home.html" style="color:var(--accent);text-decoration:none;margin-right:1.5rem;font-size:0.85rem">← Home</a>
-<h2>Indice:</h2>
-<ul>
-<li><a href="#intro">Introduzione</a></li>
-<li><a href="#home">Home</a></li>
-<li><a href="#database">Database</a></li>
-<li><a href="#mappe">Mappe</a></li>
-<li><a href="#selezioni">Selezioni</a></li>
-<li><a href="#tips">Tips</a></li>
-<li><a href="#faq">FAQ</a></li>
-</ul>
-</nav>
+  <div class="intro">
+    <p>Questa guida ti accompagna nell'uso dei due strumenti interattivi creati per esplorare le <strong>183 tecnologie di produzione</strong> del corso. I due strumenti sono complementari e collegati tra loro: usa il <strong>Database</strong> per consultare i dettagli tecnici, la <strong>Mappa</strong> per orientarti nella scelta partendo dalla forma che vuoi realizzare.</p>
+  </div>
 
-<section id="intro">
-<h2>Introduzione</h2>
-<p>Questo sistema didattico ti permette di esplorare <strong>183 tecnologie di produzione</strong> organizzate in 10 categorie operative secondo la classificazione DIN 8580.</p>
-<p>Hai a disposizione cinque strumenti interconnessi:</p>
-<ul>
-<li><strong>Home Page</strong> - Punto di partenza con accesso a tutti gli strumenti</li>
-<li><strong>Database</strong> - Ricerca, filtri e schede dettagliate delle tecnologie</li>
-<li><strong>Mappa Forma</strong> - Esplora partendo dalla forma del prodotto desiderato</li>
-<li><strong>Mappa Materiale</strong> - Esplora partendo dal materiale disponibile</li>
-<li><strong>Mappa Tecnologie</strong> - Esplora per categoria e processo produttivo</li>
-</ul>
-<div class="highlight">
-<strong>Caratteristica chiave:</strong> Le selezioni sono condivise tra tutti gli strumenti e persistono anche chiudendo il browser. Puoi selezionare tecnologie nel Database e ritrovarle evidenziate nelle Mappe, o viceversa.
+  <div class="link-buttons">
+    <a href="TdM_DB_tecnologie.html" class="link-btn database">📋 Apri Database Tecnologie</a>
+    <a href="TdM_Mappa_tecnologie.html" class="link-btn mappa">🗺️ Apri Mappa Tecnologica</a>
+  </div>
+
+  <!-- DATABASE SECTION -->
+  <h2>📋 Database Tecnologie</h2>
+  
+  <div class="tool-section">
+    <div class="tool-header">
+      <span class="tool-icon">📊</span>
+      <div>
+        <div class="tool-title">Cos'è</div>
+        <div class="tool-desc">Un archivio completo e consultabile di tutte le 183 tecnologie di produzione</div>
+      </div>
+    </div>
+    
+    <p>Il Database è la tua enciclopedia delle tecnologie. Ogni tecnologia ha una scheda dettagliata con descrizione, materiali compatibili, costi indicativi, vantaggi e limiti.</p>
+    
+    <h3>Funzionalità principali</h3>
+    <ul class="feature-list">
+      <li><strong>Ricerca testuale</strong> - Cerca per nome tecnologia o materiale</li>
+      <li><strong>Filtri per categoria</strong> - Tagliare, Piegare, Scavare, Conformare, Fondere, ecc.</li>
+      <li><strong>Filtri per classe</strong> - Sottrazione, Conservazione, Incremento</li>
+      <li><strong>Filtri per materiale</strong> - Metalli, Polimeri, Legno, Ceramica, ecc.</li>
+      <li><strong>Ordinamento colonne</strong> - Click sull'intestazione per ordinare</li>
+      <li><strong>Selezione multipla</strong> - Seleziona tecnologie e esporta in CSV</li>
+      <li><strong>Schede dettagliate</strong> - Click su una riga per vedere tutti i dettagli</li>
+    </ul>
+  </div>
+
+  <h3>Come usare il Database</h3>
+  
+  <div class="steps">
+    <div class="step">
+      <div class="step-title">Cerca o filtra</div>
+      <p>Usa la barra di ricerca per trovare una tecnologia specifica, oppure clicca sui filtri (CAT, Classi, Mat, Tipo) per restringere i risultati.</p>
+    </div>
+    <div class="step">
+      <div class="step-title">Esplora la tabella</div>
+      <p>Scorri la tabella per vedere le tecnologie. Clicca sulle intestazioni delle colonne per ordinare (es. per costo, sostenibilità).</p>
+    </div>
+    <div class="step">
+      <div class="step-title">Apri la scheda</div>
+      <p>Clicca su una riga per aprire la scheda completa con tutti i dettagli: descrizione, materiali, forme realizzabili, vantaggi, limiti.</p>
+    </div>
+    <div class="step">
+      <div class="step-title">Vai alla Mappa</div>
+      <p>Dalla scheda, clicca <strong>"🗺️ Vedi nella Mappa"</strong> per vedere dove si colloca la tecnologia nell'albero decisionale.</p>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Suggerimento</div>
+    <p>Usa il bottone <strong>"☑ Sel"</strong> per selezionare più tecnologie, poi <strong>"⬇ CSV"</strong> per esportarle in un foglio di calcolo - utile per confronti!</p>
+  </div>
+
+  <!-- MAPPA SECTION -->
+  <h2>🗺️ Mappa Tecnologica</h2>
+  
+  <div class="tool-section">
+    <div class="tool-header">
+      <span class="tool-icon">🌳</span>
+      <div>
+        <div class="tool-title">Cos'è</div>
+        <div class="tool-desc">Un albero decisionale interattivo per scegliere la tecnologia giusta partendo dalla forma</div>
+      </div>
+    </div>
+    
+    <p>La Mappa ti guida nella scelta della tecnologia seguendo il percorso: <strong>FORMA → Tipologia → Materiale → Tecnologia</strong>. È pensata per rispondere alla domanda: "Devo realizzare un oggetto con questa forma, quale tecnologia uso?"</p>
+    
+    <h3>Struttura dell'albero</h3>
+    <ul class="feature-list">
+      <li><strong>Livello 0 - FORMA</strong> (cerchio ciano) - Il punto di partenza centrale</li>
+      <li><strong>Livello 1 - Tipologia</strong> (rosso) - Piana, Lineare, Sviluppabile, Complessa</li>
+      <li><strong>Livello 2 - Attributi</strong> (giallo) - Massiccio, Cavo, specifiche geometriche</li>
+      <li><strong>Livello 3 - Materiale</strong> (blu) - Metalli, Polimeri, Legno, ecc.</li>
+      <li><strong>Livello 4 - Tecnologia</strong> (azzurro) - Le tecnologie specifiche</li>
+    </ul>
+  </div>
+
+  <h3>Navigazione della Mappa</h3>
+  
+  <table class="shortcut-table">
+    <tr>
+      <th>Azione</th>
+      <th>Come fare</th>
+      <th>Risultato</th>
+    </tr>
+    <tr>
+      <td>Zoom</td>
+      <td>Rotella del mouse / Pinch</td>
+      <td>Ingrandisci o riduci la vista</td>
+    </tr>
+    <tr>
+      <td>Sposta vista</td>
+      <td>Trascina lo sfondo</td>
+      <td>Muovi l'intera mappa</td>
+    </tr>
+    <tr>
+      <td>Sposta nodo</td>
+      <td>Trascina un nodo</td>
+      <td>Riposiziona e fissa il nodo (viene salvato!)</td>
+    </tr>
+    <tr>
+      <td>Seleziona percorso</td>
+      <td>Click su un nodo</td>
+      <td>Evidenzia antenati e discendenti</td>
+    </tr>
+    <tr>
+      <td>Sblocca nodo</td>
+      <td>Doppio click su nodo fissato</td>
+      <td>Libera il nodo dalla posizione fissa</td>
+    </tr>
+    <tr>
+      <td>Dettagli tecnologia</td>
+      <td>Click su nodo azzurro (L4)</td>
+      <td>Apre popup con descrizione</td>
+    </tr>
+  </table>
+
+  <h3>Pulsanti della toolbar</h3>
+  
+  <table class="shortcut-table">
+    <tr>
+      <td>⊡ Fit Tutto</td>
+      <td>Adatta la vista per mostrare l'intero albero</td>
+    </tr>
+    <tr>
+      <td>▎ Fit Selezione</td>
+      <td>Zoom sul percorso selezionato</td>
+    </tr>
+    <tr>
+      <td>✕ Deseleziona</td>
+      <td>Rimuove la selezione corrente</td>
+    </tr>
+    <tr>
+      <td>⊙ Libera</td>
+      <td>Sblocca tutti i nodi fissati</td>
+    </tr>
+    <tr>
+      <td>↺ Reset Layout</td>
+      <td>Ripristina il layout originale (cancella posizioni salvate)</td>
+    </tr>
+    <tr>
+      <td>⟳ Riordina</td>
+      <td>Riattiva la simulazione fisica per riorganizzare i nodi</td>
+    </tr>
+  </table>
+
+  <h3>Filtri per Requisiti</h3>
+  
+  <p>Clicca su <strong>"☰ FILTRI"</strong> (tab a destra) per aprire il pannello dei requisiti. Puoi filtrare le tecnologie per:</p>
+  
+  <ul class="feature-list">
+    <li><strong>Proprietà ottiche</strong> - Trasparente, Traslucido, Opaco</li>
+    <li><strong>Proprietà meccaniche</strong> - Rigido, Flessibile, Elastico</li>
+    <li><strong>Proprietà elettriche</strong> - Conduttivo, Isolante</li>
+    <li><strong>Proprietà termiche</strong> - Conduttivo, Isolante</li>
+  </ul>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Suggerimento</div>
+    <p>Seleziona più requisiti per trovare tecnologie che li soddisfano <strong>tutti</strong>. Il contatore accanto a ogni filtro mostra quante tecnologie restano.</p>
+  </div>
+
+  <div class="warning-box">
+    <div class="warning-title">⚙️ Posizioni salvate</div>
+    <p>Quando trascini i nodi, le posizioni vengono salvate automaticamente nel browser (localStorage). Se vuoi ricominciare da zero, usa <strong>"↺ Reset Layout"</strong>.</p>
+  </div>
+
+  <!-- WORKFLOW -->
+  <h2>🔄 Flusso di lavoro consigliato</h2>
+  
+  <h3>Scenario 1: "So cosa voglio fare, quale tecnologia uso?"</h3>
+  <div class="workflow">
+    <span class="workflow-item">🗺️ Apri Mappa</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Parti da FORMA</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Segui il percorso</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Click su tecnologia</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">📋 Scheda completa</span>
+  </div>
+
+  <h3>Scenario 2: "Voglio sapere tutto su una tecnologia"</h3>
+  <div class="workflow">
+    <span class="workflow-item">📋 Apri Database</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Cerca / Filtra</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Click sulla riga</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Leggi scheda</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">🗺️ Vedi nella Mappa</span>
+  </div>
+
+  <h3>Scenario 3: "Confronto tra tecnologie"</h3>
+  <div class="workflow">
+    <span class="workflow-item">📋 Apri Database</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Filtra categoria</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">☑ Seleziona righe</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">⬇ Esporta CSV</span>
+    <span class="workflow-arrow">→</span>
+    <span class="workflow-item">Confronta in Excel</span>
+  </div>
+
+  <!-- FAQ -->
+  <h2>❓ Domande frequenti</h2>
+  
+  <div class="tool-section">
+    <h3>Posso usare questi strumenti offline?</h3>
+    <p>Sì! Scarica i due file HTML e aprili nel browser. L'unica cosa che richiede connessione è la libreria D3.js per la Mappa (viene caricata da CDN al primo avvio).</p>
+    
+    <h3>Come mai alcuni nodi sono "fissati"?</h3>
+    <p>Quando trascini un nodo nella Mappa, questo viene fissato in quella posizione e salvato. Doppio click per sbloccarlo, oppure "⊙ Libera" per sbloccarli tutti.</p>
+    
+    <h3>Cosa significa il numero nella colonna "Sost."?</h3>
+    <p>È un indice di sostenibilità da 1 a 5 (5 = più sostenibile). Considera consumo energetico, scarti, emissioni e possibilità di riciclo.</p>
+    
+    <h3>Posso stampare una scheda?</h3>
+    <p>Sì, apri la scheda nel Database e usa la funzione stampa del browser (Ctrl+P / Cmd+P).</p>
+  </div>
+
+  <footer>
+    Accademia Albertina di Belle Arti di Torino<br>
+    Prof. Paolo Maccarrone | Tecnologia dei Materiali
+  </footer>
 </div>
-</section>
-
-<section id="home">
-<h2>Home Page</h2>
-<p>La Home Page presenta cinque porte di accesso agli strumenti, ognuna con un colore distintivo:</p>
-<table>
-<tr><th>Strumento</th><th>Colore</th><th>Descrizione</th></tr>
-<tr><td>Database</td><td><span class="btn-example btn-db">Turchese</span></td><td>Ricerca e filtri avanzati</td></tr>
-<tr><td>Mappa Forma</td><td><span class="btn-example btn-forma">Rosso/Rosa</span></td><td>Parti dalla forma desiderata</td></tr>
-<tr><td>Mappa Materiale</td><td><span class="btn-example btn-materiale">Blu</span></td><td>Parti dal materiale</td></tr>
-<tr><td>Mappa Tecnologie</td><td><span class="btn-example btn-tecnologia">Viola</span></td><td>Esplora per categoria</td></tr>
-<tr><td>Tutorial</td><td><span class="btn-example" style="background:#a29bfe">Lavanda</span></td><td>Questa guida</td></tr>
-</table>
-</section>
-
-<section id="database">
-<h2>Database</h2>
-<p>Il Database e' lo strumento principale per cercare e filtrare le 183 tecnologie.</p>
-
-<h3>Barra di navigazione</h3>
-<p>In alto trovi i pulsanti per navigare tra gli strumenti:</p>
-<p>
-<span class="btn-example btn-home">Home</span>
-<span class="btn-example btn-forma">Mappa F</span>
-<span class="btn-example btn-materiale">Mappa M</span>
-<span class="btn-example btn-tecnologia">Mappa T</span>
-</p>
-
-<h3>Filtri disponibili</h3>
-<ul>
-<li><strong>Ricerca testo</strong> - Cerca per nome o descrizione</li>
-<li><strong>Categoria</strong> - Le 10 categorie operative (Tagliare, Piegare, Scavare, etc.)</li>
-<li><strong>Classe</strong> - Sottoinsieme, asportazione, deformazione, etc.</li>
-<li><strong>Materiale</strong> - Metalli, polimeri, ceramici, legno, compositi</li>
-<li><strong>Tipo forma</strong> - Filtra per forma ottenibile</li>
-</ul>
-
-<h3>Selezione tecnologie</h3>
-<p>Puoi selezionare tecnologie cliccando sulla checkbox nella prima colonna. Le tecnologie selezionate:</p>
-<ul>
-<li>Vengono contate nel badge "Selezionati (N)"</li>
-<li>Possono essere filtrate con il pulsante "Selezionati"</li>
-<li>Possono essere visualizzate nelle mappe tramite il dropdown "Vedi in Mappa"</li>
-</ul>
-
-<h3>Scheda tecnologia</h3>
-<p>Clicca sul nome di una tecnologia per aprire la scheda dettagliata con:</p>
-<ul>
-<li>Descrizione completa del processo</li>
-<li>Materiali compatibili</li>
-<li>Forme ottenibili</li>
-<li>Vantaggi e svantaggi</li>
-<li>Link diretto alla mappa</li>
-</ul>
-
-<div class="tip">
-<strong>Suggerimento:</strong> Usa "Seleziona tutti" per selezionare tutte le tecnologie visibili dopo aver applicato i filtri. Utile per confrontare un sottoinsieme specifico.
-</div>
-</section>
-
-<section id="mappe">
-<h2>Le Tre Mappe</h2>
-<p>Le mappe sono visualizzazioni interattive che mostrano le relazioni tra tecnologie, forme e materiali.</p>
-
-<h3>Mappa Forma</h3>
-<p>Organizzata per <strong>forme ottenibili</strong>: parti dalla forma che vuoi realizzare e scopri quali tecnologie possono produrla.</p>
-<ul>
-<li>Nodi grandi: categorie di forma (Piani, Cilindrici, Cavi, etc.)</li>
-<li>Nodi piccoli: singole tecnologie</li>
-<li>Collegamenti: mostrano quali tecnologie producono quali forme</li>
-</ul>
-
-<h3>Mappa Materiale</h3>
-<p>Organizzata per <strong>materiali lavorabili</strong>: parti dal materiale disponibile e scopri quali tecnologie lo possono trasformare.</p>
-<ul>
-<li>Nodi grandi: famiglie di materiali (Metalli, Polimeri, Ceramici, etc.)</li>
-<li>Nodi piccoli: singole tecnologie</li>
-<li>Collegamenti: mostrano compatibilita' materiale-tecnologia</li>
-</ul>
-
-<h3>Mappa Tecnologie</h3>
-<p>Organizzata per <strong>categorie operative</strong>: esplora le 10 famiglie di processi secondo DIN 8580.</p>
-<ul>
-<li>Nodi grandi: le 10 categorie (Tagliare, Piegare, Scavare, etc.)</li>
-<li>Nodi piccoli: singole tecnologie</li>
-<li>Colori: ogni categoria ha un colore distintivo</li>
-</ul>
-
-<h3>Interazioni comuni a tutte le mappe</h3>
-<ul>
-<li><strong>Zoom</strong> - Rotella del mouse o pinch su touch</li>
-<li><strong>Pan</strong> - Trascina lo sfondo per spostare la vista</li>
-<li><strong>Click su nodo</strong> - Seleziona/deseleziona la tecnologia</li>
-<li><strong>Doppio click</strong> - Apre la scheda dettagliata</li>
-<li><strong>Trascina nodo</strong> - Riposiziona manualmente un nodo</li>
-</ul>
-
-<div class="highlight">
-<strong>Navigazione:</strong> Ogni mappa ha gli stessi pulsanti di navigazione del Database per passare rapidamente da uno strumento all'altro mantenendo le selezioni.
-</div>
-</section>
-
-<section id="selezioni">
-<h2>Sistema Selezioni</h2>
-<p>Il sistema di selezioni condivise e' una delle funzionalita' chiave di questo strumento didattico.</p>
-
-<h3>Come funziona</h3>
-<ol>
-<li>Seleziona tecnologie in qualsiasi strumento (Database o Mappe)</li>
-<li>Le selezioni vengono salvate automaticamente nel browser</li>
-<li>Navigando verso un altro strumento, le selezioni sono mantenute</li>
-<li>I nodi selezionati appaiono evidenziati nelle mappe</li>
-</ol>
-
-<h3>Persistenza</h3>
-<p>Le selezioni usano <code>localStorage</code> del browser:</p>
-<ul>
-<li>Persistono anche chiudendo il browser</li>
-<li>Rimangono fino al reset manuale</li>
-<li>Sono specifiche per ogni browser/dispositivo</li>
-</ul>
-
-<h3>Reset selezioni</h3>
-<p>Per azzerare tutte le selezioni:</p>
-<ul>
-<li><strong>Database:</strong> pulsante "Reset filtri" azzera anche le selezioni</li>
-<li><strong>Mappe:</strong> pulsante "Reset" nella barra di navigazione</li>
-</ul>
-
-<div class="warning">
-<strong>Attenzione:</strong> Il reset cancella tutte le selezioni. Non c'e' un "annulla" - se hai bisogno di conservare una selezione, annotala prima di fare reset.
-</div>
-</section>
-
-<section id="tips">
-<h2>Suggerimenti d'uso</h2>
-
-<h3>Per lo studio</h3>
-<ul>
-<li>Usa il Database per familiarizzare con le 183 tecnologie</li>
-<li>Filtra per categoria per studiare una famiglia alla volta</li>
-<li>Seleziona le tecnologie chiave e visualizzale nelle mappe per capire le relazioni</li>
-</ul>
-
-<h3>Per i progetti</h3>
-<ul>
-<li>Parti dalla Mappa Forma se sai che forma devi realizzare</li>
-<li>Parti dalla Mappa Materiale se hai vincoli sul materiale</li>
-<li>Confronta le tecnologie selezionate nel Database per scegliere la migliore</li>
-</ul>
-
-<h3>Workflow consigliato</h3>
-<ol>
-<li>Definisci i vincoli (forma, materiale, quantita')</li>
-<li>Usa la mappa appropriata per identificare le tecnologie candidate</li>
-<li>Selezionale e passa al Database per confrontare i dettagli</li>
-<li>Restringi la scelta in base a vantaggi/svantaggi</li>
-</ol>
-</section>
-
-<section id="faq">
-<h2>Domande Frequenti</h2>
-
-<h3>Le selezioni non si mantengono tra Database e Mappe?</h3>
-<p>Verifica di non avere il browser in modalita' "navigazione privata" o con localStorage disabilitato. In questi casi la persistenza non funziona.</p>
-
-<h3>Come posso stampare una selezione?</h3>
-<p>Dal Database, filtra per "Selezionati" e usa la funzione di stampa del browser (Ctrl+P / Cmd+P).</p>
-
-<h3>Posso esportare i dati?</h3>
-<p>Dal Database puoi esportare le tecnologie visibili in formato CSV tramite il pulsante dedicato.</p>
-
-<h3>Le mappe sono troppo dense, come faccio a orientarmi?</h3>
-<p>Usa lo zoom per allargare la vista. Puoi anche trascinare i singoli nodi per riorganizzare la disposizione. La posizione viene ricordata.</p>
-
-<h3>Ho fatto casino con le selezioni, come riparto da zero?</h3>
-<p>Usa il pulsante "Reset" disponibile in ogni strumento. Questo azzera filtri e selezioni.</p>
-</section>
-
-<div style="text-align:center">
-<a href="TdM_Home.html" class="back-home">Torna alla Home</a>
-</div>
-
-<footer>
-Accademia Albertina di Belle Arti di Torino | Scuola di Progettazione Artistica per l'Impresa<br>
-Tecnologia dei Materiali | Prof. Paolo Maccarrone
-</footer>
 
 </body>
 </html>
