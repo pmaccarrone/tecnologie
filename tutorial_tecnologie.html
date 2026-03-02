@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial - Tecnologie di Produzione</title>
+<style>
+:root{--bg:#0f0f1a;--card:#1a1a2e;--accent:#00d4ff;--text:#fff;--muted:#8888aa;--border:rgba(255,255,255,0.1)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;padding:2rem;max-width:900px;margin:0 auto}
+header{text-align:center;margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+.logo{width:80px;height:auto;margin-bottom:1rem}
+h1{font-size:1.8rem;margin-bottom:0.5rem;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--muted);font-size:1rem}
+nav{background:var(--card);border-radius:12px;padding:1rem 1.5rem;margin-bottom:2rem;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.6);border-bottom:1px solid var(--border)}
+nav h2{font-size:0.9rem;color:var(--accent);margin-right:1rem;display:inline}
+nav ul{list-style:none;display:inline-flex;flex-wrap:wrap;gap:0.5rem}
+nav a{color:var(--text);text-decoration:none;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border-radius:6px;font-size:0.85rem;transition:all 0.2s}
+nav a:hover{background:var(--accent);color:#000}
+section{background:var(--card);border-radius:12px;padding:2rem;margin-bottom:1.5rem;scroll-margin-top:5rem}
+h2{font-size:1.3rem;color:var(--accent);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+h3{font-size:1.1rem;color:#fff;margin:1.5rem 0 0.75rem 0}
+p{margin-bottom:1rem;color:#ccc}
+ul,ol{margin:1rem 0 1rem 1.5rem;color:#ccc}
+li{margin-bottom:0.5rem}
+.highlight{background:rgba(0,212,255,0.1);border-left:3px solid var(--accent);padding:1rem;border-radius:0 8px 8px 0;margin:1rem 0}
+.warning{background:rgba(255,193,7,0.1);border-left:3px solid #ffc107;padding:1rem;border-radius:0 8px 8px 0;margin:1rem 0}
+.tip{background:rgba(76,175,80,0.1);border-left:3px solid #4caf50;padding:1rem;border-radius:0 8px 8px 0;margin:1rem 0}
+code{background:rgba(255,255,255,0.1);padding:0.2rem 0.5rem;border-radius:4px;font-family:monospace;font-size:0.9rem}
+.btn-example{display:inline-block;padding:0.4rem 0.8rem;border-radius:6px;font-size:0.8rem;margin:0.2rem;color:#fff}
+.btn-home{background:linear-gradient(135deg,#37474F,#546E7A)}
+.btn-db{background:linear-gradient(135deg,#00897B,#4DB6AC)}
+.btn-forma{background:linear-gradient(135deg,#C2185B,#E91E63)}
+.btn-materiale{background:linear-gradient(135deg,#1976D2,#2196F3)}
+.btn-tecnologia{background:linear-gradient(135deg,#7B1FA2,#9C27B0)}
+table{width:100%;border-collapse:collapse;margin:1rem 0}
+th,td{padding:0.75rem;text-align:left;border-bottom:1px solid var(--border)}
+th{color:var(--accent);font-weight:600}
+td{color:#ccc}
+.back-home{display:inline-block;margin-top:2rem;padding:0.75rem 1.5rem;background:var(--accent);color:#000;text-decoration:none;border-radius:8px;font-weight:600;transition:all 0.2s}
+.back-home:hover{background:#fff}
+footer{text-align:center;padding:2rem 0;color:var(--muted);font-size:0.8rem;border-top:1px solid var(--border);margin-top:2rem}
+</style>
+</head>
+<body>
+
+<header>
+<img src="logo_albertina_scontornato.png" alt="Logo Accademia Albertina" class="logo">
+<h1>Tutorial - Tecnologie di Produzione</h1>
+<p class="subtitle">Guida all'uso degli strumenti interattivi</p>
+</header>
+
+<nav>
+<a href="TdM_Home.html" style="color:var(--accent);text-decoration:none;margin-right:1.5rem;font-size:0.85rem">← Home</a>
+<h2>Indice:</h2>
+<ul>
+<li><a href="#intro">Introduzione</a></li>
+<li><a href="#home">Home</a></li>
+<li><a href="#database">Database</a></li>
+<li><a href="#mappe">Mappe</a></li>
+<li><a href="#selezioni">Selezioni</a></li>
+<li><a href="#tips">Tips</a></li>
+<li><a href="#faq">FAQ</a></li>
+</ul>
+</nav>
+
+<section id="intro">
+<h2>Introduzione</h2>
+<p>Questo sistema didattico ti permette di esplorare <strong>183 tecnologie di produzione</strong> organizzate in 10 categorie operative secondo la classificazione DIN 8580.</p>
+<p>Hai a disposizione cinque strumenti interconnessi:</p>
+<ul>
+<li><strong>Home Page</strong> - Punto di partenza con accesso a tutti gli strumenti</li>
+<li><strong>Database</strong> - Ricerca, filtri e schede dettagliate delle tecnologie</li>
+<li><strong>Mappa Forma</strong> - Esplora partendo dalla forma del prodotto desiderato</li>
+<li><strong>Mappa Materiale</strong> - Esplora partendo dal materiale disponibile</li>
+<li><strong>Mappa Tecnologie</strong> - Esplora per categoria e processo produttivo</li>
+</ul>
+<div class="highlight">
+<strong>Caratteristica chiave:</strong> Le selezioni sono condivise tra tutti gli strumenti e persistono anche chiudendo il browser. Puoi selezionare tecnologie nel Database e ritrovarle evidenziate nelle Mappe, o viceversa.
+</div>
+</section>
+
+<section id="home">
+<h2>Home Page</h2>
+<p>La Home Page presenta cinque porte di accesso agli strumenti, ognuna con un colore distintivo:</p>
+<table>
+<tr><th>Strumento</th><th>Colore</th><th>Descrizione</th></tr>
+<tr><td>Database</td><td><span class="btn-example btn-db">Turchese</span></td><td>Ricerca e filtri avanzati</td></tr>
+<tr><td>Mappa Forma</td><td><span class="btn-example btn-forma">Rosso/Rosa</span></td><td>Parti dalla forma desiderata</td></tr>
+<tr><td>Mappa Materiale</td><td><span class="btn-example btn-materiale">Blu</span></td><td>Parti dal materiale</td></tr>
+<tr><td>Mappa Tecnologie</td><td><span class="btn-example btn-tecnologia">Viola</span></td><td>Esplora per categoria</td></tr>
+<tr><td>Tutorial</td><td><span class="btn-example" style="background:#a29bfe">Lavanda</span></td><td>Questa guida</td></tr>
+</table>
+</section>
+
+<section id="database">
+<h2>Database</h2>
+<p>Il Database e' lo strumento principale per cercare e filtrare le 183 tecnologie.</p>
+
+<h3>Barra di navigazione</h3>
+<p>In alto trovi i pulsanti per navigare tra gli strumenti:</p>
+<p>
+<span class="btn-example btn-home">Home</span>
+<span class="btn-example btn-forma">Mappa F</span>
+<span class="btn-example btn-materiale">Mappa M</span>
+<span class="btn-example btn-tecnologia">Mappa T</span>
+</p>
+
+<h3>Filtri disponibili</h3>
+<ul>
+<li><strong>Ricerca testo</strong> - Cerca per nome o descrizione</li>
+<li><strong>Categoria</strong> - Le 10 categorie operative (Tagliare, Piegare, Scavare, etc.)</li>
+<li><strong>Classe</strong> - Sottoinsieme, asportazione, deformazione, etc.</li>
+<li><strong>Materiale</strong> - Metalli, polimeri, ceramici, legno, compositi</li>
+<li><strong>Tipo forma</strong> - Filtra per forma ottenibile</li>
+</ul>
+
+<h3>Selezione tecnologie</h3>
+<p>Puoi selezionare tecnologie cliccando sulla checkbox nella prima colonna. Le tecnologie selezionate:</p>
+<ul>
+<li>Vengono contate nel badge "Selezionati (N)"</li>
+<li>Possono essere filtrate con il pulsante "Selezionati"</li>
+<li>Possono essere visualizzate nelle mappe tramite il dropdown "Vedi in Mappa"</li>
+</ul>
+
+<h3>Scheda tecnologia</h3>
+<p>Clicca sul nome di una tecnologia per aprire la scheda dettagliata con:</p>
+<ul>
+<li>Descrizione completa del processo</li>
+<li>Materiali compatibili</li>
+<li>Forme ottenibili</li>
+<li>Vantaggi e svantaggi</li>
+<li>Link diretto alla mappa</li>
+</ul>
+
+<div class="tip">
+<strong>Suggerimento:</strong> Usa "Seleziona tutti" per selezionare tutte le tecnologie visibili dopo aver applicato i filtri. Utile per confrontare un sottoinsieme specifico.
+</div>
+</section>
+
+<section id="mappe">
+<h2>Le Tre Mappe</h2>
+<p>Le mappe sono visualizzazioni interattive che mostrano le relazioni tra tecnologie, forme e materiali.</p>
+
+<h3>Mappa Forma</h3>
+<p>Organizzata per <strong>forme ottenibili</strong>: parti dalla forma che vuoi realizzare e scopri quali tecnologie possono produrla.</p>
+<ul>
+<li>Nodi grandi: categorie di forma (Piani, Cilindrici, Cavi, etc.)</li>
+<li>Nodi piccoli: singole tecnologie</li>
+<li>Collegamenti: mostrano quali tecnologie producono quali forme</li>
+</ul>
+
+<h3>Mappa Materiale</h3>
+<p>Organizzata per <strong>materiali lavorabili</strong>: parti dal materiale disponibile e scopri quali tecnologie lo possono trasformare.</p>
+<ul>
+<li>Nodi grandi: famiglie di materiali (Metalli, Polimeri, Ceramici, etc.)</li>
+<li>Nodi piccoli: singole tecnologie</li>
+<li>Collegamenti: mostrano compatibilita' materiale-tecnologia</li>
+</ul>
+
+<h3>Mappa Tecnologie</h3>
+<p>Organizzata per <strong>categorie operative</strong>: esplora le 10 famiglie di processi secondo DIN 8580.</p>
+<ul>
+<li>Nodi grandi: le 10 categorie (Tagliare, Piegare, Scavare, etc.)</li>
+<li>Nodi piccoli: singole tecnologie</li>
+<li>Colori: ogni categoria ha un colore distintivo</li>
+</ul>
+
+<h3>Interazioni comuni a tutte le mappe</h3>
+<ul>
+<li><strong>Zoom</strong> - Rotella del mouse o pinch su touch</li>
+<li><strong>Pan</strong> - Trascina lo sfondo per spostare la vista</li>
+<li><strong>Click su nodo</strong> - Seleziona/deseleziona la tecnologia</li>
+<li><strong>Doppio click</strong> - Apre la scheda dettagliata</li>
+<li><strong>Trascina nodo</strong> - Riposiziona manualmente un nodo</li>
+</ul>
+
+<div class="highlight">
+<strong>Navigazione:</strong> Ogni mappa ha gli stessi pulsanti di navigazione del Database per passare rapidamente da uno strumento all'altro mantenendo le selezioni.
+</div>
+</section>
+
+<section id="selezioni">
+<h2>Sistema Selezioni</h2>
+<p>Il sistema di selezioni condivise e' una delle funzionalita' chiave di questo strumento didattico.</p>
+
+<h3>Come funziona</h3>
+<ol>
+<li>Seleziona tecnologie in qualsiasi strumento (Database o Mappe)</li>
+<li>Le selezioni vengono salvate automaticamente nel browser</li>
+<li>Navigando verso un altro strumento, le selezioni sono mantenute</li>
+<li>I nodi selezionati appaiono evidenziati nelle mappe</li>
+</ol>
+
+<h3>Persistenza</h3>
+<p>Le selezioni usano <code>localStorage</code> del browser:</p>
+<ul>
+<li>Persistono anche chiudendo il browser</li>
+<li>Rimangono fino al reset manuale</li>
+<li>Sono specifiche per ogni browser/dispositivo</li>
+</ul>
+
+<h3>Reset selezioni</h3>
+<p>Per azzerare tutte le selezioni:</p>
+<ul>
+<li><strong>Database:</strong> pulsante "Reset filtri" azzera anche le selezioni</li>
+<li><strong>Mappe:</strong> pulsante "Reset" nella barra di navigazione</li>
+</ul>
+
+<div class="warning">
+<strong>Attenzione:</strong> Il reset cancella tutte le selezioni. Non c'e' un "annulla" - se hai bisogno di conservare una selezione, annotala prima di fare reset.
+</div>
+</section>
+
+<section id="tips">
+<h2>Suggerimenti d'uso</h2>
+
+<h3>Per lo studio</h3>
+<ul>
+<li>Usa il Database per familiarizzare con le 183 tecnologie</li>
+<li>Filtra per categoria per studiare una famiglia alla volta</li>
+<li>Seleziona le tecnologie chiave e visualizzale nelle mappe per capire le relazioni</li>
+</ul>
+
+<h3>Per i progetti</h3>
+<ul>
+<li>Parti dalla Mappa Forma se sai che forma devi realizzare</li>
+<li>Parti dalla Mappa Materiale se hai vincoli sul materiale</li>
+<li>Confronta le tecnologie selezionate nel Database per scegliere la migliore</li>
+</ul>
+
+<h3>Workflow consigliato</h3>
+<ol>
+<li>Definisci i vincoli (forma, materiale, quantita')</li>
+<li>Usa la mappa appropriata per identificare le tecnologie candidate</li>
+<li>Selezionale e passa al Database per confrontare i dettagli</li>
+<li>Restringi la scelta in base a vantaggi/svantaggi</li>
+</ol>
+</section>
+
+<section id="faq">
+<h2>Domande Frequenti</h2>
+
+<h3>Le selezioni non si mantengono tra Database e Mappe?</h3>
+<p>Verifica di non avere il browser in modalita' "navigazione privata" o con localStorage disabilitato. In questi casi la persistenza non funziona.</p>
+
+<h3>Come posso stampare una selezione?</h3>
+<p>Dal Database, filtra per "Selezionati" e usa la funzione di stampa del browser (Ctrl+P / Cmd+P).</p>
+
+<h3>Posso esportare i dati?</h3>
+<p>Dal Database puoi esportare le tecnologie visibili in formato CSV tramite il pulsante dedicato.</p>
+
+<h3>Le mappe sono troppo dense, come faccio a orientarmi?</h3>
+<p>Usa lo zoom per allargare la vista. Puoi anche trascinare i singoli nodi per riorganizzare la disposizione. La posizione viene ricordata.</p>
+
+<h3>Ho fatto casino con le selezioni, come riparto da zero?</h3>
+<p>Usa il pulsante "Reset" disponibile in ogni strumento. Questo azzera filtri e selezioni.</p>
+</section>
+
+<div style="text-align:center">
+<a href="TdM_Home.html" class="back-home">Torna alla Home</a>
+</div>
+
+<footer>
+Accademia Albertina di Belle Arti di Torino | Scuola di Progettazione Artistica per l'Impresa<br>
+Tecnologia dei Materiali | Prof. Paolo Maccarrone
+</footer>
+
+</body>
+</html>

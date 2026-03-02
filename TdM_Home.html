@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tecnologie di Produzione - Strumenti Didattici</title>
+<style>
+:root{--bg:#0f0f1a;--card:#1a1a2e;--accent:#00d4ff;--accent2:#ffd700;--text:#fff;--muted:#8888aa;--border:rgba(255,255,255,0.1)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+.container{max-width:900px;width:100%;text-align:center}
+.header{margin-bottom:3rem}
+.logo{width:120px;height:auto;margin-bottom:1.2rem}
+.credits{color:var(--muted);font-size:0.85rem;line-height:1.6;margin-bottom:1.5rem}
+.credits .accademia{font-weight:600;color:#fff;font-size:1rem}
+.credits .scuola{color:var(--accent);font-size:0.9rem;margin-top:0.2rem}
+.credits .corso{margin-top:0.5rem}
+.credits .prof{font-style:italic}
+h1{font-size:2.2rem;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem}
+.subtitle{color:var(--muted);font-size:1.1rem;margin-bottom:2rem}
+.intro{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:2.5rem;text-align:left;border-left:4px solid var(--accent)}
+.intro p{color:#ccc;line-height:1.7}
+.doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.2rem;margin-bottom:2rem}
+.tutorial-section{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)}
+.door{background:var(--card);border-radius:12px;padding:1.5rem 1rem;text-decoration:none;color:var(--text);transition:all 0.3s;border:2px solid var(--border)}
+.door:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(255,255,255,0.1)}
+.door.forma{border-color:#ff6b6b}
+.door.forma:hover{border-color:#ff6b6b;box-shadow:0 8px 24px rgba(255,107,107,0.3)}
+.door.materiale{border-color:#ffd700}
+.door.materiale:hover{border-color:#ffd700;box-shadow:0 8px 24px rgba(255,215,0,0.3)}
+.door.tecnologia{border-color:#00d4ff}
+.door.tecnologia:hover{border-color:#00d4ff;box-shadow:0 8px 24px rgba(0,212,255,0.3)}
+.door.db{border-color:#4ecdc4}
+.door.db:hover{border-color:#4ecdc4;box-shadow:0 8px 24px rgba(78,205,196,0.3)}
+.door.tutorial{border-color:#a29bfe}
+.door.tutorial:hover{border-color:#a29bfe;box-shadow:0 8px 24px rgba(162,155,254,0.3)}
+.door-title{font-size:1.1rem;font-weight:600;margin-bottom:0.4rem}
+.door-desc{font-size:0.8rem;color:var(--muted);line-height:1.4}
+.footer{margin-top:2rem;color:var(--muted);font-size:0.75rem}
+.version{background:rgba(255,255,255,0.1);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.7rem;margin-left:0.5rem}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <img class="logo" src="logo_albertina_scontornato.png" alt="Logo Accademia Albertina">
+    <div class="credits">
+      <div class="accademia">Accademia Albertina di Belle Arti di Torino</div>
+      <div class="scuola">Scuola di Progettazione Artistica per l'Impresa</div>
+      <div class="corso">Tecnologia dei Materiali</div>
+      <div class="prof">Prof. Paolo Maccarrone</div>
+    </div>
+    <h1>Tecnologie di Produzione</h1>
+    <div class="subtitle">183 processi produttivi per il design</div>
+  </div>
+
+  <div class="intro">
+    <p>Cinque strumenti interattivi per esplorare le tecnologie di trasformazione dei materiali. Il <strong>database</strong> permette ricerche e filtri avanzati. Le <strong>tre mappe</strong> offrono percorsi diversi per navigare le tecnologie: partendo dalla forma, dal materiale o dalla categoria. Il <strong>tutorial</strong> spiega come usare gli strumenti.</p>
+  </div>
+
+  <div class="doors">
+    <a href="TdM_DB_tecnologie.html" class="door db">
+      <div class="door-title">Database</div>
+      <div class="door-desc">Ricerca, filtri, schede dettagliate</div>
+    </a>
+    <a href="TdM_Mappa_Forma.html" class="door forma">
+      <div class="door-title">Mappa Forma</div>
+      <div class="door-desc">Parti dalla forma per trovare la tecnologia</div>
+    </a>
+    <a href="TdM_Mappa_Materiale.html" class="door materiale">
+      <div class="door-title">Mappa Materiale</div>
+      <div class="door-desc">Parti dal materiale per esplorare le categorie</div>
+    </a>
+    <a href="TdM_Mappa_tecnologie.html" class="door tecnologia">
+      <div class="door-title">Mappa Tecnologia</div>
+      <div class="door-desc">Esplora per categoria e tecnologia</div>
+    </a>
+  </div>
+
+  <div class="doors tutorial-section">
+    <a href="tutorial_tecnologie.html" class="door tutorial">
+      <div class="door-title">Tutorial</div>
+      <div class="door-desc">Guida all'uso degli strumenti</div>
+    </a>
+  </div>
+
+  <div class="footer">
+    Tecnologie di Produzione <span class="version">v1.0</span>
+  </div>
+</div>
+
+</body>
+</html>
