@@ -214,8 +214,6 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
 
 <div class="tech-popup" id="selectionBox" style="left:20px;top:100px;"></div>
 
-<div class="tech-popup" id="selectionBox" style="left:20px;top:100px;"></div>
-
 <div class="node-tooltip" id="nodeTooltip"></div>
 
 <script>
@@ -374,7 +372,8 @@ node.each(function(d) {
 });
 
 var selectedNode = null;
-var multiSelectedNodes = [];
+var selectedNodes = [];
+var popupNodes = [];
 var activeNodeIds = new Set();
 var activeFilters = [];
 var currentSearchQuery = '';
@@ -531,13 +530,18 @@ function selectNodeById(nodeId) {
 
 function clearSelection() {
   selectedNode = null;
-  multiSelectedNodes = [];
+  selectedNodes = [];
+  popupNodes = [];
   activeNodeIds.clear();
+  localStorage.setItem('tdm_selected', JSON.stringify([]));
   currentSearchQuery = '';
   document.getElementById('searchTech').value = '';
   document.getElementById('searchResults').style.display = 'none';
-  document.getElementById('selectionBox').classList.remove('visible');
-  updateVisuals();
+  document.getElementById('techPopup').classList.remove('visible');
+  var selBox = document.getElementById('selectionBox');
+  if (selBox) selBox.classList.remove('visible');
+  currentTechId = null;
+  updateVisualsMulti();
   document.getElementById('breadcrumb').classList.remove('visible');
 }
 
@@ -908,14 +912,21 @@ function toggleMultiNode(techId, checked) {
 }
 
 function fitSelection() {
-  if (!selectedNode) { fitView(); return; }
-  var allPathIds = selectedNode.ancestors.concat(selectedNode.descendantIds);
-  var selectedNodes = nodes.filter(function(n) { return allPathIds.includes(n.id) && !n.filteredOut; });
-  if (selectedNodes.length === 0) { fitView(); return; }
-  var minX = d3.min(selectedNodes, function(n) { return n.x - SIZES[n.level].w/2; });
-  var maxX = d3.max(selectedNodes, function(n) { return n.x + SIZES[n.level].w/2; });
-  var minY = d3.min(selectedNodes, function(n) { return n.y - SIZES[n.level].h/2; });
-  var maxY = d3.max(selectedNodes, function(n) { return n.y + SIZES[n.level].h/2; });
+  if (selectedNodes.length === 0 && !selectedNode) { fitView(); return; }
+  var allPathIds = new Set();
+  selectedNodes.forEach(function(sn) {
+    sn.ancestors.forEach(function(aid) { allPathIds.add(aid); });
+    allPathIds.add(sn.id);
+  });
+  if (allPathIds.size === 0 && selectedNode) {
+    selectedNode.ancestors.concat(selectedNode.descendantIds).forEach(function(id) { allPathIds.add(id); });
+  }
+  var fitNodes = nodes.filter(function(n) { return allPathIds.has(n.id) && !n.filteredOut; });
+  if (fitNodes.length === 0) { fitView(); return; }
+  var minX = d3.min(fitNodes, function(n) { return n.x - SIZES[n.level].w/2; });
+  var maxX = d3.max(fitNodes, function(n) { return n.x + SIZES[n.level].w/2; });
+  var minY = d3.min(fitNodes, function(n) { return n.y - SIZES[n.level].h/2; });
+  var maxY = d3.max(fitNodes, function(n) { return n.y + SIZES[n.level].h/2; });
   var bw = maxX - minX, bh = maxY - minY, pad = 80;
   var scale = Math.min((width - pad*2) / bw, (height - pad*2) / bh, 1.3);
   var tx = (width - bw * scale) / 2 - minX * scale;
@@ -933,99 +944,6 @@ if (hadSavedPositions) {
   setTimeout(fitView, 500);
 } else {
   setTimeout(fitView, 2500);
-}
-
-// Supporto URL parameter ?tech=ID per evidenziare tecnologia
-// === MULTI-SELEZIONE ===
-function saveSelectionToStorage() {
-  var techIds = multiSelectedNodes.filter(function(n) { return activeNodeIds.has(n.techId); }).map(function(n) { return n.techId; });
-  localStorage.setItem('tdm_selected', JSON.stringify(techIds));
-}
-
-function addToMultiSelection(d) {
-  if (!d.techId) return;
-  var idx = multiSelectedNodes.findIndex(function(n) { return n.id === d.id; });
-  if (idx >= 0) {
-    if (activeNodeIds.has(d.techId)) { activeNodeIds.delete(d.techId); } else { activeNodeIds.add(d.techId); }
-  } else {
-    multiSelectedNodes.push(d);
-    activeNodeIds.add(d.techId);
-  }
-  saveSelectionToStorage();
-  updateMultiSelectionDisplay();
-}
-
-function updateMultiSelectionDisplay() {
-  updateVisualsMulti();
-  if (multiSelectedNodes.length > 0) { showMultiPopup(multiSelectedNodes); } else { hideMultiPopup(); }
-}
-
-function updateVisualsMulti() {
-  var activePaths = new Set();
-  multiSelectedNodes.forEach(function(sn) {
-    if (activeNodeIds.has(sn.techId)) {
-      sn.ancestors.forEach(function(aid) { activePaths.add(aid); });
-      activePaths.add(sn.id);
-    }
-  });
-  var hasActive = activePaths.size > 0;
-  node.each(function(d) {
-    var el = d3.select(this);
-    var isFiltered = d.filteredOut;
-    var isOnPath = !hasActive || activePaths.has(d.id);
-    el.classed('filtered-out', isFiltered);
-    el.classed('highlighted', hasActive && activePaths.has(d.id) && !isFiltered);
-    el.classed('dimmed', hasActive && !activePaths.has(d.id) && !isFiltered);
-  });
-  link.each(function(l) {
-    var el = d3.select(this);
-    var srcId = l.source.id !== undefined ? l.source.id : l.source;
-    var tgtId = l.target.id !== undefined ? l.target.id : l.target;
-    var srcNode = nodes.find(function(n) { return n.id === srcId; });
-    var tgtNode = nodes.find(function(n) { return n.id === tgtId; });
-    var isFiltered = srcNode.filteredOut || tgtNode.filteredOut;
-    var isOnPath = hasActive && activePaths.has(srcId) && activePaths.has(tgtId);
-    el.classed('filtered-out', isFiltered);
-    el.classed('highlighted', isOnPath && !isFiltered);
-    el.classed('dimmed', hasActive && !isOnPath && !isFiltered);
-  });
-}
-
-function showMultiPopup(targetNodes) {
-  var popup = document.getElementById('selectionBox');
-  var activeCount = targetNodes.filter(function(tn) { return activeNodeIds.has(tn.techId); }).length;
-  var html = '<span class="close" onclick="hideMultiPopup()">&times;</span>';
-  html += '<div style="font-weight:bold;margin-bottom:10px;color:#4fc3f7;">' + activeCount + '/' + targetNodes.length + ' tecnologie attive</div>';
-  html += '<div style="max-height:300px;overflow-y:auto;">';
-  targetNodes.forEach(function(tn) {
-    var info = techInfo[tn.techId];
-    if (info) {
-      var isActive = activeNodeIds.has(tn.techId);
-      var checkedAttr = isActive ? 'checked' : '';
-      var textColor = isActive ? '#ccc' : '#666';
-      html += '<label style="display:flex;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1);cursor:pointer;">';
-      html += '<input type="checkbox" ' + checkedAttr + ' onchange="toggleMultiNode(' + tn.techId + ',this.checked)" style="margin-right:10px;">';
-      html += '<span style="color:' + textColor + ';">' + info.nome + '</span></label>';
-    }
-  });
-  html += '</div>';
-  popup.innerHTML = html;
-  popup.classList.add('visible');
-}
-
-function hideMultiPopup() {
-  document.getElementById('selectionBox').classList.remove('visible');
-  multiSelectedNodes = [];
-  activeNodeIds.clear();
-  localStorage.removeItem('tdm_selected');
-  updateVisuals();
-}
-
-function toggleMultiNode(techId, checked) {
-  if (checked) { activeNodeIds.add(techId); } else { activeNodeIds.delete(techId); }
-  saveSelectionToStorage();
-  updateVisualsMulti();
-  showMultiPopup(multiSelectedNodes);
 }
 
 function checkUrlParam() {
