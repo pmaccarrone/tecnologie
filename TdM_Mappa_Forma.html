@@ -83,11 +83,7 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
 .breadcrumb .descendants{color:#4CAF50;font-size:0.8rem;margin-left:0.5rem;font-weight:500}
 
 /* Legenda - tab verticale come filtri */
-.legend-tab{position:fixed;right:0;top:160px;background:#12121f;border:1px solid #333;border-right:none;border-radius:8px 0 0 8px;padding:0.8rem 0.4rem;cursor:pointer;writing-mode:vertical-rl;text-orientation:mixed;font-size:0.75rem;color:#888;z-index:50;transition:all 0.2s}
-.legend-tab:hover{background:#1a1a2e;color:#00d4ff;border-color:#00d4ff}
-.legend-tab.active{background:#00d4ff;color:#000;border-color:#00d4ff;right:180px}
-.legend-panel{position:fixed;right:0;top:160px;width:0;height:auto;overflow:hidden;background:#12121f;border:1px solid #333;border-right:none;border-radius:8px 0 0 8px;transition:width 0.3s;z-index:49}
-.legend-panel.open{width:180px}
+/* Legenda rimossa - livelli nei filtri */
 .legend-inner{width:180px;padding:0.8rem}
 .legend-title{font-size:0.7rem;color:#888;margin-bottom:0.5rem;text-transform:uppercase}
 .legend-section{margin-bottom:0.8rem}
@@ -192,7 +188,7 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
   <button class="btn" onclick="clearSelection()">✕ Deseleziona</button>
   <button class="btn" onclick="releaseAll()" title="Sblocca nodi fissati">⊙ Sblocca</button>
   <button class="btn" onclick="restoreLayout()" title="Ripristina layout">↺ Ripristina</button>
-  <button class="btn" onclick="resetPositions()" title="Reset posizioni">↻ Reset</button>
+  <button class="btn" onclick="resetPositions()" title="Ricalcola layout">↻ Ricalcola</button>
   <button class="btn" onclick="reheat()">⟳ Riordina</button>
 </div>
 
@@ -202,30 +198,53 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
   <div class="filters-tab" id="filtersTab" onclick="toggleFilters()">=  FILTRI</div>
   <svg id="tree"></svg>
   
-  <div class="filters-panel" id="filtersPanel">
+<div class="filters-panel" id="filtersPanel">
     <div class="filters-inner">
-      <div class="filters-title">Requisiti materiale<span onclick="toggleFilters()">X</span></div>
+      <div class="filters-title">Filtri<span onclick="toggleFilters()">X</span></div>
       <div class="filter-group">
-        <div class="filter-group-title">Proprieta ottiche <input type="checkbox" id="f_ottiche_all" title="Seleziona/Deseleziona tutti"></div>
+        <div class="filter-group-title">Livelli <input type="checkbox" id="depth_all" checked title="Tutti"></div>
+        <div class="filter-item"><input type="checkbox" id="depth_0" checked onchange="applyFilters()"><div style="background:#2e7d32;width:12px;height:12px;display:inline-block;margin-right:4px;vertical-align:middle;border-radius:50%"></div><label for="depth_0">Root</label></div>
+        <div class="filter-item"><input type="checkbox" id="depth_1" checked onchange="applyFilters()"><div style="background:#c62828;width:12px;height:12px;display:inline-block;margin-right:4px;vertical-align:middle;border-radius:3px"></div><label for="depth_1">Tipologia</label></div>
+        <div class="filter-item"><input type="checkbox" id="depth_2" checked onchange="applyFilters()"><div style="background:#f9a825;width:12px;height:12px;display:inline-block;margin-right:4px;vertical-align:middle;border-radius:3px"></div><label for="depth_2">Cavità</label></div>
+        <div class="filter-item"><input type="checkbox" id="depth_3" checked onchange="applyFilters()"><div style="background:#1565c0;width:12px;height:12px;display:inline-block;margin-right:4px;vertical-align:middle;border-radius:3px"></div><label for="depth_3">Materiale</label></div>
+        <div class="filter-item"><input type="checkbox" id="depth_4" checked onchange="applyFilters()"><div style="background:#0d1117;border:2px solid #4fc3f7;width:12px;height:12px;display:inline-block;margin-right:4px;vertical-align:middle;border-radius:3px"></div><label for="depth_4">Tecnologia</label></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Categoria <input type="checkbox" id="f_cat_all" checked title="Tutti"></div>
+        <div class="filter-item"><input type="checkbox" id="f_TAGLIARE" checked onchange="applyFilters()"><label for="f_TAGLIARE">Tagliare</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_PIEGARE" checked onchange="applyFilters()"><label for="f_PIEGARE">Piegare</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_SCAVARE" checked onchange="applyFilters()"><label for="f_SCAVARE">Scavare</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_CONFORMARE" checked onchange="applyFilters()"><label for="f_CONFORMARE">Conformare</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_FONDERE" checked onchange="applyFilters()"><label for="f_FONDERE">Fondere</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_STAMPARE_POLIMERI" checked onchange="applyFilters()"><label for="f_STAMPARE_POLIMERI">Stampare Polimeri</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_UNIRE" checked onchange="applyFilters()"><label for="f_UNIRE">Unire</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_PROTEGGERE" checked onchange="applyFilters()"><label for="f_PROTEGGERE">Proteggere</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_ADDITIVE" checked onchange="applyFilters()"><label for="f_ADDITIVE">Additive</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_DECORARE" checked onchange="applyFilters()"><label for="f_DECORARE">Decorare</label></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Materiale <input type="checkbox" id="f_mat_all" checked title="Tutti"></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Acciaio" checked onchange="applyFilters()"><label for="f_m_Acciaio">Acciaio</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Alluminio" checked onchange="applyFilters()"><label for="f_m_Alluminio">Alluminio</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Carta" checked onchange="applyFilters()"><label for="f_m_Carta">Carta</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Ceramica" checked onchange="applyFilters()"><label for="f_m_Ceramica">Ceramica</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Compositi" checked onchange="applyFilters()"><label for="f_m_Compositi">Compositi</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Gomma" checked onchange="applyFilters()"><label for="f_m_Gomma">Gomma</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Legno" checked onchange="applyFilters()"><label for="f_m_Legno">Legno</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Metalli" checked onchange="applyFilters()"><label for="f_m_Metalli">Metalli</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Polimeri" checked onchange="applyFilters()"><label for="f_m_Polimeri">Polimeri</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Tessuti" checked onchange="applyFilters()"><label for="f_m_Tessuti">Tessuti</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Vari" checked onchange="applyFilters()"><label for="f_m_Vari">Vari</label></div>
+        <div class="filter-item"><input type="checkbox" id="f_m_Vetro" checked onchange="applyFilters()"><label for="f_m_Vetro">Vetro</label></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Requisiti</div>
         <div class="filter-item"><input type="checkbox" id="f_trasparente" onchange="applyFilters()"><label for="f_trasparente">Trasparente</label><span class="count" id="c_trasparente"></span></div>
         <div class="filter-item"><input type="checkbox" id="f_traslucido" onchange="applyFilters()"><label for="f_traslucido">Traslucido</label><span class="count" id="c_traslucido"></span></div>
         <div class="filter-item"><input type="checkbox" id="f_opaco" onchange="applyFilters()"><label for="f_opaco">Opaco</label><span class="count" id="c_opaco"></span></div>
-      </div>
-      <div class="filter-group">
-        <div class="filter-group-title">Proprieta meccaniche <input type="checkbox" id="f_meccaniche_all" title="Seleziona/Deseleziona tutti"></div>
         <div class="filter-item"><input type="checkbox" id="f_rigido" onchange="applyFilters()"><label for="f_rigido">Rigido</label><span class="count" id="c_rigido"></span></div>
         <div class="filter-item"><input type="checkbox" id="f_flessibile" onchange="applyFilters()"><label for="f_flessibile">Flessibile</label><span class="count" id="c_flessibile"></span></div>
         <div class="filter-item"><input type="checkbox" id="f_elastico" onchange="applyFilters()"><label for="f_elastico">Elastico</label><span class="count" id="c_elastico"></span></div>
-      </div>
-      <div class="filter-group">
-        <div class="filter-group-title">Proprieta elettriche <input type="checkbox" id="f_elettriche_all" title="Seleziona/Deseleziona tutti"></div>
-        <div class="filter-item"><input type="checkbox" id="f_conduttivo_el" onchange="applyFilters()"><label for="f_conduttivo_el">Conduttivo el.</label><span class="count" id="c_conduttivo_el"></span></div>
-        <div class="filter-item"><input type="checkbox" id="f_isolante_el" onchange="applyFilters()"><label for="f_isolante_el">Isolante el.</label><span class="count" id="c_isolante_el"></span></div>
-      </div>
-      <div class="filter-group">
-        <div class="filter-group-title">Proprieta termiche <input type="checkbox" id="f_termiche_all" title="Seleziona/Deseleziona tutti"></div>
-        <div class="filter-item"><input type="checkbox" id="f_conduttivo_th" onchange="applyFilters()"><label for="f_conduttivo_th">Conduttivo th.</label><span class="count" id="c_conduttivo_th"></span></div>
-        <div class="filter-item"><input type="checkbox" id="f_isolante_th" onchange="applyFilters()"><label for="f_isolante_th">Isolante th.</label><span class="count" id="c_isolante_th"></span></div>
       </div>
       <button class="filter-reset" onclick="resetFilters()">Reset filtri</button>
     </div>
@@ -234,19 +253,7 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
 
 <div class="breadcrumb" id="breadcrumb"></div>
 
-<div class="legend-tab" id="legendTab" onclick="toggleLegend()">[=] LIVELLI</div>
-<div class="legend-panel" id="legendPanel">
-  <div class="legend-inner">
-    <div class="legend-section">
-      <div class="legend-section-title">Profondita <input type="checkbox" id="depth_all" checked title="Tutti"></div>
-      <div class="legend-item"><input type="checkbox" id="depth_0" checked><div class="legend-color circle" style="background:#2e7d32"></div> Root</div>
-      <div class="legend-item"><input type="checkbox" id="depth_1" checked><div class="legend-color" style="background:#c62828"></div> Tipologia</div>
-      <div class="legend-item"><input type="checkbox" id="depth_2" checked><div class="legend-color" style="background:#f9a825"></div> Cavita/Attributo</div>
-      <div class="legend-item"><input type="checkbox" id="depth_3" checked><div class="legend-color" style="background:#1565c0"></div> Materiale</div>
-      <div class="legend-item"><input type="checkbox" id="depth_4" checked><div class="legend-color" style="background:#0d1117;border:2px solid #4fc3f7"></div> Tecnologia</div>
-    </div>
-  </div>
-</div>
+<!-- Legenda rimossa - livelli nei filtri -->
 
 <div class="tech-popup" id="techPopup">
   <span class="close" onclick="closePopup()">X</span>
@@ -283,7 +290,7 @@ var zoom = d3.zoom().scaleExtent([0.05, 5]).on('zoom', function(e) { g.attr('tra
 svg.call(zoom);
 
 var SIZES = {
-  0: {w: 180, h: 180, font: 52, radius: 90, isCircle: true},
+  0: {w: 300, h: 300, font: 56, radius: 150, isCircle: true},
   1: {w: 320, h: 120, font: 44, radius: 80},
   2: {w: 145, h: 52, font: 19, radius: 35},
   3: {w: 130, h: 46, font: 16, radius: 30},
@@ -294,9 +301,13 @@ var nodes = [];
 var links = [];
 var id = 0;
 
-function flatten(node, parent, parentIdx, ancestors) {
+function flatten(node, parent, parentIdx, ancestors, parentMatName) {
   var nid = id++;
   var path = ancestors.concat([nid]);
+  var matName = parentMatName || null;
+  if (node.level === 3) matName = node.name;
+  var cat = null;
+  if (node.techId && techInfo[node.techId]) cat = techInfo[node.techId].cat;
   var n = {
     id: nid,
     name: node.name,
@@ -307,14 +318,16 @@ function flatten(node, parent, parentIdx, ancestors) {
     descendantIds: [],
     req: node.req || [],
     techId: node.techId || null,
+    cat: cat,
+    matName: matName,
     filteredOut: false
   };
   nodes.push(n);
   if (parent !== null) links.push({source: parent, target: nid});
-  if (node.children) node.children.forEach(function(child, i) { flatten(child, nid, i, path); });
+  if (node.children) node.children.forEach(function(child, i) { flatten(child, nid, i, path, matName); });
   return nid;
 }
-flatten(treeData, null, 0, []);
+flatten(treeData, null, 0, [], null);
 
 function getDescendants(nodeId) {
   var desc = [];
@@ -330,7 +343,9 @@ function getDescendants(nodeId) {
 }
 nodes.forEach(function(n) { n.descendantIds = getDescendants(n.id); });
 
-var REQ_LIST = ['trasparente', 'traslucido', 'opaco', 'rigido', 'flessibile', 'elastico', 'conduttivo_el', 'isolante_el', 'conduttivo_th', 'isolante_th'];
+var REQ_LIST = ['trasparente', 'traslucido', 'opaco', 'rigido', 'flessibile', 'elastico'];
+var CAT_LIST = ['TAGLIARE', 'PIEGARE', 'SCAVARE', 'CONFORMARE', 'FONDERE', 'STAMPARE_POLIMERI', 'UNIRE', 'PROTEGGERE', 'ADDITIVE', 'DECORARE'];
+var MAT_LIST = ['Acciaio', 'Alluminio', 'Carta', 'Ceramica', 'Compositi', 'Gomma', 'Legno', 'Metalli', 'Polimeri', 'Tessuti', 'Vari', 'Vetro'];
 REQ_LIST.forEach(function(r) {
   var count = nodes.filter(function(n) { return n.level === 4 && n.req.includes(r); }).length;
   var el = document.getElementById('c_' + r);
@@ -550,50 +565,7 @@ function openFullCard() {
   }
 }
 
-function toggleLegend() {
-  document.getElementById('legendPanel').classList.toggle('open');
-  document.getElementById('legendTab').classList.toggle('active');
-}
-
-// Filtri profondità
-var depthLevels = [0, 1, 2, 3, 4];
-var visibleDepths = new Set(depthLevels);
-
-function applyDepthFilters() {
-  node.style('display', function(d) {
-    return visibleDepths.has(d.level) ? null : 'none';
-  });
-  link.style('display', function(l) {
-    var src = typeof l.source === 'object' ? l.source : nodes.find(function(n) { return n.id === l.source; });
-    var tgt = typeof l.target === 'object' ? l.target : nodes.find(function(n) { return n.id === l.target; });
-    return (src && tgt && visibleDepths.has(src.level) && visibleDepths.has(tgt.level)) ? null : 'none';
-  });
-}
-
-depthLevels.forEach(function(lvl) {
-  var cb = document.getElementById('depth_' + lvl);
-  if (cb) {
-    cb.addEventListener('change', function() {
-      if (this.checked) {
-        visibleDepths.add(lvl);
-      } else {
-        visibleDepths.delete(lvl);
-      }
-      document.getElementById('depth_all').checked = visibleDepths.size === 5;
-      applyDepthFilters();
-    });
-  }
-});
-
-document.getElementById('depth_all').addEventListener('change', function() {
-  var checked = this.checked;
-  depthLevels.forEach(function(lvl) {
-    var cb = document.getElementById('depth_' + lvl);
-    if (cb) cb.checked = checked;
-    if (checked) visibleDepths.add(lvl); else visibleDepths.delete(lvl);
-  });
-  applyDepthFilters();
-});
+// Legenda e depth handlers rimossi - integrati nei filtri
 
 function selectNode(d) {
   // Toggle: se gia' selezionato, deseleziona
@@ -710,11 +682,8 @@ function updateBreadcrumb(d) {
 }
 
 function toggleFilters() {
-  var isOpen = document.getElementById('filtersPanel').classList.toggle('open');
+  document.getElementById('filtersPanel').classList.toggle('open');
   document.getElementById('filtersTab').classList.toggle('active');
-  // Sposta tab legenda quando filtri aperti
-  document.getElementById('legendTab').style.top = isOpen ? '350px' : '160px';
-  document.getElementById('legendPanel').style.top = isOpen ? '350px' : '160px';
   setTimeout(function() { updateSize(); fitView(); }, 350);
 }
 
@@ -722,86 +691,98 @@ function getActiveFilters() {
   return REQ_LIST.filter(function(r) { var cb = document.getElementById('f_' + r); return cb && cb.checked; });
 }
 
+function getVisibleDepths() {
+  var depths = new Set();
+  for (var i = 0; i <= 4; i++) { var cb = document.getElementById('depth_' + i); if (cb && cb.checked) depths.add(i); }
+  return depths;
+}
+
+function getActiveCats() {
+  return CAT_LIST.filter(function(c) { var cb = document.getElementById('f_' + c); return cb && cb.checked; });
+}
+
+function getActiveMats() {
+  return MAT_LIST.filter(function(m) { var cb = document.getElementById('f_m_' + m); return cb && cb.checked; });
+}
+
 function applyFilters() {
   var activeFilters = getActiveFilters();
+  var visibleDepths = getVisibleDepths();
+  var activeCats = getActiveCats();
+  var activeMats = getActiveMats();
+  var allCatsOn = activeCats.length === CAT_LIST.length;
+  var allMatsOn = activeMats.length === MAT_LIST.length;
+  
   nodes.forEach(function(n) { n.filteredOut = false; });
   
-  // Logica AND: tecnologia visibile se ha TUTTI i requisiti selezionati
-  if (activeFilters.length > 0) {
-    nodes.forEach(function(n) {
-      if (n.level === 4 && n.req) {
-        var passAll = activeFilters.every(function(f) { return n.req.includes(f); });
-        n.filteredOut = !passAll;
+  nodes.forEach(function(n) {
+    if (n.level === 4) {
+      if (activeFilters.length > 0) {
+        if (!activeFilters.every(function(f) { return n.req && n.req.includes(f); })) { n.filteredOut = true; return; }
+      }
+      if (!allCatsOn && n.cat && !activeCats.includes(n.cat)) { n.filteredOut = true; return; }
+      if (!allMatsOn && n.matName && !activeMats.includes(n.matName)) { n.filteredOut = true; return; }
+    }
+  });
+  
+  for (var lvl = 3; lvl >= 0; lvl--) {
+    nodes.filter(function(n) { return n.level === lvl; }).forEach(function(n) {
+      var leafDesc = n.descendantIds.filter(function(did) {
+        var dn = nodes.find(function(x) { return x.id === did; });
+        return dn && dn.level === 4;
+      });
+      if (leafDesc.length > 0) {
+        n.filteredOut = leafDesc.every(function(did) {
+          var dn = nodes.find(function(x) { return x.id === did; });
+          return dn && dn.filteredOut;
+        });
       }
     });
-    // Propaga ai livelli superiori
-    for (var lvl = 3; lvl >= 0; lvl--) {
-      nodes.filter(function(n) { return n.level === lvl; }).forEach(function(n) {
-        var leafDesc = n.descendantIds.filter(function(did) {
-          var dn = nodes.find(function(x) { return x.id === did; });
-          return dn && dn.level === 4;
-        });
-        if (leafDesc.length > 0) {
-          n.filteredOut = leafDesc.every(function(did) {
-            var dn = nodes.find(function(x) { return x.id === did; });
-            return dn && dn.filteredOut;
-          });
-        }
-      });
-    }
   }
   
-  // Aggiorna conteggi
+  nodes.forEach(function(n) { if (!visibleDepths.has(n.level)) n.filteredOut = true; });
+  
   REQ_LIST.forEach(function(r) {
     var count;
     if (activeFilters.length === 0) {
-      count = nodes.filter(function(n) { return n.level === 4 && n.req && n.req.includes(r); }).length;
+      count = nodes.filter(function(n) { return n.level === 4 && !n.filteredOut && n.req && n.req.includes(r); }).length;
     } else {
-      var testFilters = activeFilters.slice();
-      if (!testFilters.includes(r)) testFilters.push(r);
+      var tf = activeFilters.slice();
+      if (!tf.includes(r)) tf.push(r);
       count = nodes.filter(function(n) { 
-        return n.level === 4 && n.req && testFilters.every(function(f) { return n.req.includes(f); });
+        return n.level === 4 && n.req && tf.every(function(f) { return n.req.includes(f); }) &&
+               (allCatsOn || !n.cat || activeCats.includes(n.cat)) &&
+               (allMatsOn || !n.matName || activeMats.includes(n.matName));
       }).length;
     }
     var el = document.getElementById('c_' + r);
     if (el) el.textContent = count;
   });
   
-  // Aggiorna checkbox gruppo
-  updateGroupCheckboxes();
+  document.getElementById('depth_all').checked = visibleDepths.size === 5;
+  document.getElementById('f_cat_all').checked = allCatsOn;
+  document.getElementById('f_mat_all').checked = allMatsOn;
+  
   updateActiveFiltersBar();
-  
-  // Chiama la funzione visuals corretta
-  if (selectedNodes.length > 0) {
-    updateVisualsMulti();
-  } else {
-    updateVisuals();
-  }
+  if (selectedNodes.length > 0) { updateVisualsMulti(); } else { updateVisuals(); }
   if (selectedNodes.length > 0) updateBreadcrumb(selectedNodes[selectedNodes.length - 1]);
-}
-
-function updateGroupCheckboxes() {
-  var otticheIds = ['f_trasparente', 'f_traslucido', 'f_opaco'];
-  var meccanicheIds = ['f_rigido', 'f_flessibile', 'f_elastico'];
-  var elettricheIds = ['f_conduttivo_el', 'f_isolante_el'];
-  var termicheIds = ['f_conduttivo_th', 'f_isolante_th'];
-  
-  document.getElementById('f_ottiche_all').checked = otticheIds.every(function(id) { return document.getElementById(id).checked; });
-  document.getElementById('f_meccaniche_all').checked = meccanicheIds.every(function(id) { return document.getElementById(id).checked; });
-  document.getElementById('f_elettriche_all').checked = elettricheIds.every(function(id) { return document.getElementById(id).checked; });
-  document.getElementById('f_termiche_all').checked = termicheIds.every(function(id) { return document.getElementById(id).checked; });
 }
 
 function updateActiveFiltersBar() {
   var bar = document.getElementById('activeFilters');
   var activeFilters = getActiveFilters();
-  
-  if (activeFilters.length === 0) { bar.classList.remove('visible'); return; }
-  
-  var html = '<span>Requisiti:</span>';
+  var activeCats = getActiveCats();
+  var activeMats = getActiveMats();
+  var allCatsOn = activeCats.length === CAT_LIST.length;
+  var allMatsOn = activeMats.length === MAT_LIST.length;
+  var hasAny = activeFilters.length > 0 || !allCatsOn || !allMatsOn;
+  if (!hasAny) { bar.classList.remove('visible'); return; }
+  var html = '<span>Filtri attivi:</span>';
   activeFilters.forEach(function(f) {
     html += '<span class="tag">' + f.replace('_', ' ') + ' <span onclick="removeFilter(\'' + f + '\')">X</span></span>';
   });
+  if (!allCatsOn) { html += '<span class="tag" style="background:#5c2828">' + (CAT_LIST.length - activeCats.length) + ' cat. escluse</span>'; }
+  if (!allMatsOn) { html += '<span class="tag" style="background:#283c5c">' + (MAT_LIST.length - activeMats.length) + ' mat. esclusi</span>'; }
   var remaining = nodes.filter(function(n) { return n.level === 4 && !n.filteredOut; }).length;
   html += '<span style="margin-left:auto;color:#4CAF50">' + remaining + ' tecnologie</span>';
   bar.innerHTML = html;
@@ -810,13 +791,15 @@ function updateActiveFiltersBar() {
 
 function addFilter(f) { var cb = document.getElementById('f_' + f); if (cb) cb.checked = true; applyFilters(); }
 function removeFilter(f) { var cb = document.getElementById('f_' + f); if (cb) cb.checked = false; applyFilters(); }
-function resetFilters() { 
-  REQ_LIST.forEach(function(r) { var cb = document.getElementById('f_' + r); if (cb) cb.checked = false; }); 
-  document.getElementById('f_ottiche_all').checked = false;
-  document.getElementById('f_meccaniche_all').checked = false;
-  document.getElementById('f_elettriche_all').checked = false;
-  document.getElementById('f_termiche_all').checked = false;
-  applyFilters(); 
+function resetFilters() {
+  REQ_LIST.forEach(function(r) { var cb = document.getElementById('f_' + r); if (cb) cb.checked = false; });
+  CAT_LIST.forEach(function(c) { var cb = document.getElementById('f_' + c); if (cb) cb.checked = true; });
+  MAT_LIST.forEach(function(m) { var cb = document.getElementById('f_m_' + m); if (cb) cb.checked = true; });
+  for (var i = 0; i <= 4; i++) { var cb = document.getElementById('depth_' + i); if (cb) cb.checked = true; }
+  document.getElementById('depth_all').checked = true;
+  document.getElementById('f_cat_all').checked = true;
+  document.getElementById('f_mat_all').checked = true;
+  applyFilters();
 }
 
 function ticked() {
@@ -1047,7 +1030,11 @@ if (hadSavedPositions) {
 function checkUrlParam() {
   var params = new URLSearchParams(window.location.search);
   var techParam = params.get('tech');
+  var nosel = params.get('nosel');
   var techIds = [];
+  
+  // nosel=1 -> mappa pulita senza cancellare localStorage
+  if (nosel) { return; }
   
   // Priorità 1: parametro URL
   if (techParam) {
@@ -1234,7 +1221,7 @@ function toggleMultiNode(techId, checked) {
     selectedNodes = selectedNodes.filter(function(n) { return n.techId !== techId; });
   }
   var techIds = selectedNodes.map(function(n) { return n.techId; }).filter(Boolean);
-  localStorage.setItem('tdm_selected', JSON.stringify([...new Set(techIds)]));
+  localStorage.setItem('tdm_selected', JSON.stringify(techIds));
   if (selectedNodes.length === 0) {
     updateVisuals(); // Reset visuals ma mantieni popup
   } else {
@@ -1275,9 +1262,11 @@ function transferKeep() {
 }
 
 function transferClear() {
-  localStorage.removeItem('tdm_selected');
   document.getElementById('transferDialog').classList.remove('visible');
-  if (pendingTransferUrl) window.location.href = pendingTransferUrl;
+  if (pendingTransferUrl) {
+    var sep = pendingTransferUrl.indexOf('?') >= 0 ? '&' : '?';
+    window.location.href = pendingTransferUrl + sep + 'nosel=1';
+  }
 }
 
 // Gestione trasferimento selezioni tra mappe
@@ -1300,30 +1289,20 @@ document.querySelectorAll('a[href*="Mappa"]').forEach(function(link) {
   });
 });
 
-// Checkbox Seleziona Tutti - Gruppi
-var otticheIds = ['f_trasparente', 'f_traslucido', 'f_opaco'];
-var meccanicheIds = ['f_rigido', 'f_flessibile', 'f_elastico'];
-var elettricheIds = ['f_conduttivo_el', 'f_isolante_el'];
-var termicheIds = ['f_conduttivo_th', 'f_isolante_th'];
-
-document.getElementById('f_ottiche_all').addEventListener('change', function() {
+// Checkbox Seleziona Tutti - Nuovi gruppi
+document.getElementById('depth_all').addEventListener('change', function() {
   var checked = this.checked;
-  otticheIds.forEach(function(id) { document.getElementById(id).checked = checked; });
+  for (var i = 0; i <= 4; i++) { document.getElementById('depth_' + i).checked = checked; }
   applyFilters();
 });
-document.getElementById('f_meccaniche_all').addEventListener('change', function() {
+document.getElementById('f_cat_all').addEventListener('change', function() {
   var checked = this.checked;
-  meccanicheIds.forEach(function(id) { document.getElementById(id).checked = checked; });
+  CAT_LIST.forEach(function(c) { document.getElementById('f_' + c).checked = checked; });
   applyFilters();
 });
-document.getElementById('f_elettriche_all').addEventListener('change', function() {
+document.getElementById('f_mat_all').addEventListener('change', function() {
   var checked = this.checked;
-  elettricheIds.forEach(function(id) { document.getElementById(id).checked = checked; });
-  applyFilters();
-});
-document.getElementById('f_termiche_all').addEventListener('change', function() {
-  var checked = this.checked;
-  termicheIds.forEach(function(id) { document.getElementById(id).checked = checked; });
+  MAT_LIST.forEach(function(m) { document.getElementById('f_m_' + m).checked = checked; });
   applyFilters();
 });
 

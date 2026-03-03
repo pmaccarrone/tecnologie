@@ -146,9 +146,9 @@
   };
 
   document.getElementById('tdm-sel-clear').onclick = function() {
-    clearSel();
     dialog.classList.remove('show');
-    window.location.href = pendingHref;
+    var sep = pendingHref.indexOf('?') >= 0 ? '&' : '?';
+    window.location.href = pendingHref + sep + 'nosel=1';
   };
 
   dialog.addEventListener('click', function(e) {

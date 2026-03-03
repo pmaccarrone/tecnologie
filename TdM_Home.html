@@ -11,15 +11,16 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 .container{max-width:900px;width:100%;text-align:center}
 .header{margin-bottom:3rem}
 .logo{width:120px;height:auto;margin-bottom:1.2rem}
-.credits{color:var(--muted);font-size:0.85rem;line-height:1.6;margin-bottom:1.5rem}
+.credits{color:var(--muted);font-size:0.85rem;line-height:1.6;margin-bottom:1rem}
 .credits .accademia{font-weight:600;color:#fff;font-size:1rem}
 .credits .scuola{color:var(--accent);font-size:0.9rem;margin-top:0.2rem}
-.credits .corso{margin-top:0.5rem}
-.credits .prof{font-style:italic}
+.credits .corso{margin-top:0.5rem;display:inline}
+.credits .prof{font-style:italic;display:inline}
+.credits .corso-line{margin-top:0.5rem}
 h1{font-size:2.2rem;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem}
-.subtitle{color:var(--muted);font-size:1.1rem;margin-bottom:2rem}
-.intro{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:2.5rem;text-align:left;border-left:4px solid var(--accent)}
-.intro p{color:#ccc;line-height:1.7}
+.subtitle{color:var(--muted);font-size:1.1rem;margin-bottom:1.2rem}
+.intro{background:var(--card);border-radius:12px;padding:0.8rem 1.2rem;margin-bottom:1.5rem;text-align:left;border-left:4px solid var(--accent)}
+.intro p{color:#ccc;line-height:1.5;font-size:0.85rem}
 .doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.2rem;margin-bottom:2rem}
 .tutorial-section{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)}
 .door{background:var(--card);border-radius:12px;padding:1.5rem 1rem;text-decoration:none;color:var(--text);transition:all 0.3s;border:2px solid var(--border)}
@@ -47,9 +48,8 @@ h1{font-size:2.2rem;background:linear-gradient(135deg,#fff,var(--accent));-webki
     <img class="logo" src="logo_albertina_scontornato.png" alt="Logo Accademia Albertina">
     <div class="credits">
       <div class="accademia">Accademia Albertina di Belle Arti di Torino</div>
-      <div class="scuola">Scuola di Progettazione Artistica per l'Impresa</div>
-      <div class="corso">Tecnologia dei Materiali</div>
-      <div class="prof">Prof. Paolo Maccarrone</div>
+      <div class="scuola">Scuola PAI - Progettazione Artistica per l'Impresa</div>
+      <div class="corso-line"><span class="corso">Tecnologia dei Materiali</span> · <span class="prof">Prof. Paolo Maccarrone</span></div>
     </div>
     <h1>Tecnologie di Produzione</h1>
     <div class="subtitle">183 processi produttivi per il design</div>

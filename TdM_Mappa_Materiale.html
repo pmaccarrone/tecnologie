@@ -231,7 +231,7 @@ body{font-family:system-ui,sans-serif;color:#fff;display:flex;flex-direction:col
   <button class="btn" id="fitSel" title="Centra sulla selezione">Fit selez.</button>
   <button class="btn" id="sblocca" title="Libera i nodi fissati">Sblocca</button>
   <button class="btn" id="ripristina" title="Torna all'ultimo backup">Ripristina</button>
-  <button class="btn" id="reset" title="Riorganizza mantenendo backup">Reset</button>
+  <button class="btn" id="reset" title="Ricalcola layout mantenendo backup">Ricalcola</button>
   <button class="btn" id="riordina" title="Ricalcola layout ottimale">Riordina</button>
 </div>
 <div class="main">
@@ -671,13 +671,13 @@ var simulation = d3.forceSimulation(nodes)
   .force('link', d3.forceLink(links).id(function(d) { return d.id; }).distance(function(l) {
     var src = typeof l.source === 'object' ? l.source : nodes.find(function(n) { return n.id === l.source; });
     if (!src) return 80;
-    if (src.level === 0) return 180;
+    if (src.level === 0) return 220;
     if (src.level === 1) return 120;
     if (src.level === 2) return 80;
     return 50;
   }).strength(0.6))
   .force('charge', d3.forceManyBody().strength(function(d) {
-    if (d.level === 0) return -800;
+    if (d.level === 0) return -1200;
     if (d.level === 1) return -400;
     if (d.level === 2) return -200;
     if (d.level === 3) return -100;
@@ -686,7 +686,7 @@ var simulation = d3.forceSimulation(nodes)
   .force('x', d3.forceX(width / 2).strength(0.02))
   .force('y', d3.forceY(height / 2).strength(0.02))
   .force('collision', d3.forceCollide().radius(function(d) {
-    if (d.level === 0) return 40;
+    if (d.level === 0) return 80;
     if (d.level === 1) return 35;
     if (d.level === 2) return 30;
     if (d.level === 3) return 25;
@@ -736,8 +736,8 @@ var node = g.append('g').attr('class', 'nodes').selectAll('g')
 node.each(function(d) {
   var el = d3.select(this);
   if (d.level === 0) {
-    el.append('circle').attr('r', 40);
-    el.append('text').attr('text-anchor', 'middle').attr('dy', '0.35em').style('font-size', '18px').style('font-weight', 'bold').text(d.name);
+    el.append('circle').attr('r', 80);
+    el.append('text').attr('text-anchor', 'middle').attr('dy', '0.35em').style('font-size', '24px').style('font-weight', 'bold').text(d.name);
   } else {
     var w = d.level === 1 ? 130 : d.level === 2 ? 100 : d.level === 3 ? 100 : 80;
     var h = d.level === 1 ? 42 : d.level === 2 ? 32 : d.level === 3 ? 22 : 18;
@@ -1384,9 +1384,11 @@ function transferKeep() {
 }
 
 function transferClear() {
-  localStorage.removeItem('tdm_selected');
   document.getElementById('transferDialog').classList.remove('visible');
-  if (pendingTransferUrl) window.location.href = pendingTransferUrl;
+  if (pendingTransferUrl) {
+    var sep = pendingTransferUrl.indexOf('?') >= 0 ? '&' : '?';
+    window.location.href = pendingTransferUrl + sep + 'nosel=1';
+  }
 }
 
 // Gestione trasferimento selezioni tra mappe
@@ -1416,7 +1418,11 @@ setTimeout(fitAll, 1500);
 function checkUrlParams() {
   var params = new URLSearchParams(window.location.search);
   var techParam = params.get('tech');
+  var nosel = params.get('nosel');
   var techIds = [];
+  
+  // Priorit\u00e0 0: nosel=1 -> mappa pulita senza cancellare localStorage
+  if (nosel) { return; }
   
   // Priorità 1: parametro URL
   if (techParam) {
